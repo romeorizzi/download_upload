@@ -1,0 +1,13 @@
+Fact: A mè non costa nulla mandare ad ogni studente, sul suo indirizzo di posta elettronica UniVR (della forma ad esempio VR435956@studenti.univr.it), una mail con il link da cui scaricarsi lo zip con dentro il testo del suo esame personale.
+Una volta alla pagina cui lo porta il link vede la sua matricola ed è invitato a confermare inserendo il suo nome e cognome.
+A quel punto può scaricarsi lo zip.
+
+Questa è una soluzione semplice (ed in realtà anche potente, forse persion più potente di moolde ad intercettare chi con cattive intenzioni,  perchè volenfo possiamo anche contare il numero di downloads dello zip e da dove vengono scaricati, e se uno s) e mi apre anche efficace per il download.
+
+Non fà nessuna differenza in download che non siano credenziali GIA (anzi la nostra credenziale costitiota dal link fornito nella mail mandata al suo account personale  è quì paradossalmente più potente che non le credenziali GIA in quanto one-time one-use):
+la mail arriva allo studente e solo lui ha quindi il link (e ne è quindi in un certo senso più specificamente responsabile che non delle credenziali GIA dato che quel link è stringa casuale generata specificamente per quello scopo e più lunga e ben più unbreakable delle credenziali GIA, e non possono avergliela nemmeno vista a sua insaputa in altre circostanze).
+Se lui condivide la mail allora poteva anche condividere lo zip appena dopo averlo scaricato.
+Quindi questo download che è facile e robusto e possiamo farlo subito è anche più potente di moodle consentendo ad esempio di intercettare a priori e segnalarci chi con cattive intenzioni,  perchè volendo possiamo anche contare il numero di downloads dello zip e da dove vengono scaricati, e se uno zip viene scaricato da due parti divere alziamo una segnalazione.
+
+Come script ci basta a questo punto realizzare quello che si scarica tutte le sottoposizioni da GARR Filesender, non sò se preveda le API in tal senso. Ma nel caso peggiore uno li scaricherà uno per uno a mano.
+
