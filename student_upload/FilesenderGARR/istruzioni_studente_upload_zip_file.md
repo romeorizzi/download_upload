@@ -68,6 +68,6 @@ Una volta concluso l'invio, cliccando su "I miei trasferimenti" e poi su "Vedi i
 
 ![Figura: schermata che certifica il tuo invio del file tramite Filesender GARR](schermate/ricevutaGARR_a_studente.png)
 
-Alternativamente, puoi accedere al servizio GARR Filsesender da MyUniVR oppure da Moodle:
+Alternativamente, puoi accedere al servizio GARR accedere_a_FilesenderGARR_da_MyUniVR_o_da_moodle da MyUniVR oppure da Moodle:
 
 ![Figura: schermata che certifica il tuo invio del file tramite Filesender GARR](schermate/accedere_a_FilsesenderGARR_da_MyUniVR_o_da_moodle.png)

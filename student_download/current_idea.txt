@@ -11,6 +11,3 @@ Non fa nessuna differenza in download che non siano usate credenziali GIA (anzi,
 l'e-mail arriva allo studente e solo lei/lui ha quindi il link (e ne è quindi in un certo senso più specificamente responsabile che non delle credenziali GIA, dato che quel link è stringa casuale generata specificamente per quello scopo e più lunga e ben più unbreakable delle credenziali GIA, e non possono avergliela nemmeno vista a sua insaputa in altre circostanze).
 Vero è che lo studente potrebbe inoltrare l'e-mail a qualcun altro, ma allora potrebbe anche condividere lo .zip appena dopo averlo scaricato.
 Quindi questo download, facile e robusto, possiamo farlo subito ed è anche più potente di Moodle per intercettare chi abbia cattive intenzioni, perché volendo possiamo anche contare il numero di downloads dello .zip e da dove vengono scaricati, e se uno zip viene scaricato da due parti diverse, allora alziamo una segnalazione.
-
-Come script, ci basta a questo punto realizzarne uno che si scarica tutte le sottoposizioni effettuate con GARR Filesender (non sappiamo se preveda le API in tal senso). Ma, nel caso peggiore, uno potrà scaricare i file uno per uno a mano.
-(ALICE: quest'ultima frase riguarda l'upload, più che il download)
