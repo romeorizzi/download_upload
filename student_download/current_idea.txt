@@ -1,7 +1,9 @@
-Fact:
+Per il download da parte dello studente:
 Non costa nulla mandare a ogni studente, sul suo indirizzo di posta elettronica UniVR (della forma ad esempio VR435956@studenti.univr.it), un'e-mail con il link da cui scaricarsi lo .zip con dentro il testo del suo esame personale.
-Una volta alla pagina cui lo porta il link, lo studente vede la sua matricola ed è invitato a confermare la sua identità, inserendo il suo nome e cognome.
-A quel punto può scaricarsi lo zip.
+Una volta immesso lo URL per accedere alla sua pagina web personale allo studente viene visualizzata una box per l'accesso che lo chiama per nome e cognome e gli chiede di inserire:
+1. la sua matricola
+2. una password che anche possiamo inviargli attraverso la mail (non davvero necessario ma costa davvero poco a tutti).
+Inseriti questi dati può scaricarsi lo zip del suo tema personale.
 
 Questa è una soluzione semplice e pare anche efficace per il download.
 

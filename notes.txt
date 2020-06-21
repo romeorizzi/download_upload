@@ -1,0 +1,35 @@
+leggo qui:
+https://www.garrnews.it/index.php/ricerche/89
+che esiste la possibilità per chi ha diritto ad usare il servizio Filesender GARR di creare un token perchè qualcuno che non avesse invece accesso (metti uno studente che per qualche ragione fosse senza credenziali GIA, od altre situazioni), possa comunque accedere.
+
+Invece: temo non ci sia alcun modo di scaricarsi tutti gli allegati ricevuti da vari utenti in una botta unica dala propria area Filesender GARR.
+
+Su questo moodle potrebbe essere superiore.
+
+Ho scritto la seguente mail affrettata all'indirizzo (idem-help@garr.it):
+Subject: richiesta info e suggerimento di attivazione servizio
+Body:
+Buongiorno,
+sono un docente di Università di Verona, parte della Federazione IDEM
+e possiamo ad esempio usufruire (sia noi docenti che i nostri studenti) del vostro servizio GARR Filesender.
+
+Volevo chiedere se non fosse possibile (e se non lo è suggerire di prevedere questa possibilità in futuro) per una parsona che ha ricevuto varie mail di invito
+a scaricarsi quindi diversi file, di scaricarseli tutti a botta unica. O magari una finestra dove selezionare i file di sua competenza (per quanto inviatigli da diverse persone) e scaricarsi a botta unica tutti quelli selezionati. Poterli facilmente selezionare tutti.
+A mè quello che interessa è poterli scaricare tutti.
+
+Credo che questa caratteristica impreziosirebbe il vostro servizio ma volgio anche indicarvi perch mi interessi e perchè possa rivelarsi davvero interessante nel far fornte ai nostri compiti in questa emergenza del CoVid.
+
+Io ho deciso che il modo più robusto e potente di far sottomettere ai miei studenti i loro elaborati agli esami (nel mio caso vengono generati file di grosse dimensioni perchè consento loro di inviarmi anche foto di cosa fatto su carta) sia quello di utilizzare il vostro sistema Filesender GARR e credo anche che potrebbe essere una buona idea promuovere questo tipo di utilizzo.
+
+Ovviamente scaricarsi poi gli elaborati uno per uno è un pò palloso ed error prone.
+Mi sarei fatto volentieri uno script per farlo ma vedo che non avete reso pubbliche delle API in tal verso.
+
+
+Spero possiate accogliere il mio suggerimento di arricchire il vostro servizio o con delle API o, credo avrebbe ancora più suvccesso, una concretizzazione di quello che in articoli come questo:
+https://www.garrnews.it/index.php/ricerche/89
+
+sembrate quasi configurare come un area personale ma, se invece ho capito ene cosa al momento possibile, di fatto ad ora non lo è.
+
+Romeo
+
+
