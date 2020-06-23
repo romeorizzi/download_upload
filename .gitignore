@@ -1,3 +1,16 @@
+# archives
+*.zip
+*.tgz
+*.tar.gz
+*.tar
+*.7z
+
+# instance specific files
+*.xls
+*.csv
+*.docx
+DEST_*
+
 # backups
 *~
 *.bak

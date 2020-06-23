@@ -1,0 +1,26 @@
+La cartella shuttle è quella cartella in locale, sul nostro PC, dove predisponiamo ogni materiale con calma, prima del momento dell'esame. Essa contiene una sottocartella per ogni studente, con il testo del tema che gli compete.
+Prima dell'esame abbiamo cura di caricare l'intera cartella shuttle, as it is, over our web server. Each student will download what contained in its own personal directory. Ovviamente vogliamo che solo quello studente possa accedere ai materiali nella sua cartella.
+All the protection required is managed through the simple mechanism managed by all the web servers Apache and based on the use of two hidden files:
+.htaccess and .htpasswd
+
+L'organizzazione della nostra soluzione è semplice:
+dentro la cartella shuttle collochiamo un file .htaccess che impedisca di listare le sottocatelle presenti. Nessun visitatore del sito potrà venire a conoscere i nomi di queste sottocartelle. Se tutto sarà correttamente configurato (verificare con dei test! Ci sono molti modi di sbagliare le impostazioni, tutti facili da correggere ma il guaio lo si fà se non si controlla) sarà il web server Apachi ad impedirglielo.
+Abbiamo una sottocartella per ogni studente ed il suo nome è una stringa randomicamente generata (impossibile da indovinare) e che chiamiamo ancora. Solo lo studente potrà quindi giungere a quella sottocartella, cosa che farà cliccando sul link inviatogli alla sua mailbox istituzionale.
+Giunto nella cartella, lo salutiamo per nome e cognome e gli chiediamo di procedere inserendo sua matricola ed un'ulteriore breve password che gli abbiamo fornito nella stessa mail. Di fatto questo ulteriore meccanismo non è necessario ma, a parte il fatto che la sicurezza si costruisce a strati di cipolla, questa impostazione del momento della consegna allo studente lo aiuta a realizzare che di fatto, almeno in download, egli risponde di queste credenziali ancor più che non di credenziali istituzionali (che potrebbero essergli state sbirciate in passato e comunque non avranno mai la robustezza dell'ancora).
+Lo studente utilizzarà invece le credenziali istituzionali in upload, al momento della consegna. 
+
+Per implementare questo meccanismo dove appena egli giunge nella sua cartella personale viene salutato ed invitato ad introdurre matricola e credenziali per proseguire oltre, utilizziamo ora e disponiamo nella sottocartella personale dello studente non solo un file .htaccess più riccamente configurato di quello nella cartella padre e visto prima, ma anche un file .htpasswd, in pratica un suo fratello minore che collabora spesso con esso.
+
+
+Per un presentazione di cosa siano i file .htaccess si vedano:
+```
+https://www.hostingtalk.it/htaccess-hosting/
+https://hostingcanada.org/htaccess-guide/
+```
+
+Per un presentazione di cosa siano i file .htpasswd si veda:
+```
+https://www.aganis.it/siti-web-trento-blog/proteggere-area-web-con-htaccess-e-htpasswd/
+```
+
+Ma non devi preoccupartene, essi potranno essere tutti automaticamente generati dai nostri script.
