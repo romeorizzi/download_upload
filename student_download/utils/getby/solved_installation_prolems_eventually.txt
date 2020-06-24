@@ -1,0 +1,8 @@
+https://stackoverflow.com/questions/22765313/when-import-docx-in-python3-3-i-have-error-importerror-no-module-named-excepti
+
+La pagian con le spiegazioni sarebbe stata:
+
+https://python-docx.readthedocs.io/en/latest/user/install.html
+
+ma non bastava
+

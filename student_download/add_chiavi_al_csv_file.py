@@ -1,5 +1,4 @@
 #!/usr/bin/python3
-import smtplib
 from sys import argv, exit, stderr
 import os
 import random
@@ -10,7 +9,7 @@ INPUT_FILE = "lista_studenti_iscritti.csv"
 OUTPUT_FILE = "lista_studenti_iscritti_con_chiavi.csv"
 
 def usage():
-    print(f"""Usage: {os.path.basename(argv[0])} [-h] [-n] [length_pwd (int, default = 6) [PWD_PREFIX (string, "") [PWD_SUFFIX (string, "") [lenght_anchor (int, -1)] ] ] ]\n\n   dove un flag che inizi per h condurrebbe a visualizzare questo aiuto ed il flag n chiede che la password generata sia un codice numerico\n\n   il primo parametro opzionale (length_pwd) è un numero intero che indica la lunghezza della sezione randomica della password di accesso (default 6, può essere 0 se non vogliamo alcuna password).\n\n   il secondo parametro opzionale (PWD_PREFIX) e' un'eventuale stringa di prefisso uguale per tutte le password (default la stringa vuota).\n     Nota: alcuni valori particolari di PWD_PREFIX vengono serviti in modo speciale, si veda il codice.\n\n   il terzo parametro opzionale (PWD_SUFFIX) e' un'eventuale stringa di suffisso uguale per tutte le password (default la stringa vuota).\n     Nota: alcuni valori particolari di PWD_SUFFIX possono essere gestiti in modo speciale.\n\n   il quarto parametro opzionale (lenght_anchor) è la lunghezza dell'ancora nell'indirizzo a cui lo studente reperisce i propri file col tema assegnato (consigliato 10, possibile 0 che implica che tutte le ancore siano la stringa vuota, ma il default è -1 nel qual caso il file .csv generato non conterrà la colonna per le ancore generate randomicamente e specifiche al singolo studente).""", file=stderr)
+    print(f"""Usage: ./{os.path.basename(argv[0])} [-h] [-n] [length_pwd (int, default = 6) [PWD_PREFIX (string, "") [PWD_SUFFIX (string, "") [lenght_anchor (int, -1)] ] ] ]\n\n   dove un flag che inizi per h condurrebbe a visualizzare questo aiuto ed il flag n chiede che la password generata sia un codice numerico\n\n   il primo parametro opzionale (length_pwd) è un numero intero che indica la lunghezza della sezione randomica della password di accesso (default 6, può essere 0 se non vogliamo alcuna password).\n\n   il secondo parametro opzionale (PWD_PREFIX) e' un'eventuale stringa di prefisso uguale per tutte le password (default la stringa vuota).\n     Nota: alcuni valori particolari di PWD_PREFIX vengono serviti in modo speciale, si veda il codice.\n\n   il terzo parametro opzionale (PWD_SUFFIX) e' un'eventuale stringa di suffisso uguale per tutte le password (default la stringa vuota).\n     Nota: alcuni valori particolari di PWD_SUFFIX possono essere gestiti in modo speciale.\n\n   il quarto parametro opzionale (lenght_anchor) è la lunghezza dell'ancora nell'indirizzo a cui lo studente reperisce i propri file col tema assegnato (consigliato 10, possibile 0 che implica che tutte le ancore siano la stringa vuota, ma il default è -1 nel qual caso il file .csv generato non conterrà la colonna per le ancore generate randomicamente e specifiche al singolo studente).\n\nEsempi d'uso:\n   Nel caso dell'esame di Ricerca Operativa in UniVR lo lancio come:\n   ./{os.path.basename(argv[0])} -n 6 "" "" 15""", file=stderr)
     exit(1)
 
 # THE MAIN PROGRAM:    
@@ -118,3 +117,22 @@ with open(INPUT_FILE,"r") as fin:
            ANCHOR = ''.join([random.choice(string.ascii_letters + string.digits) for n in range(length_anchor)])
            fout.write(MAILADR_MAT + "," + MATRICOLA + "," + YEAR + "," + ANCHOR + "," + PASSWORD + "," + MAILADR_ID + "," + NAME + "," + SURNAME + "\n")
 print(f"Fatto! Il file {OUTPUT_FILE} è stato costruito e contiene {i} records.")
+
+""" LEGENDA DEL RECORD DROPPATO SU FILE lista_studenti_iscritti_con_chiavi.csv:
+
+Il singolo record (riga, dato studente) viene droppato sul file .csv in formazione col comando:
+
+fout.write(MAILADR_MAT + "," + MATRICOLA + "," + YEAR + "," + ANCHOR + "," + PASSWORD + "," + MAILADR_ID + "," + NAME + "," + SURNAME + "\n")
+
+dove:
+
+MAILADR_MAT è l'indirizzo di mail basato sulla matricola (generato automaticamente partendo dall'informazione della matricola)
+MATRICOLA è la matricola, che a UniVR è nella forma VR??????
+YEAR è l'anno accademico in cui spettava (e tipicamente è avvenuta) la frequenza al corso
+ANCHOR è una stringa di 15 caratteri (lettere maiuscole e minuscole + cifre) generata casualmente. La uso ad esempio per il nome della cartella da cui potranno fare il download del loro compito, ma possiamo usalra anche per altri usi. Nel generarla non ho utilizzato alcuna informazione specifica (come la matricola oppure la data dell'appello). Inoltre: non è intesa per essere riproducibie (lo script che genera il file vorrà essere di pubblico dominio).
+PASSWORD: un codice numerico di 6 cifre
+MAILADR_ID: è l'indirizzo di mail basato sull'id studente (a volte all'esame ti arrivano con delle tessere su cui è scritto solo quello, inoltre questo id mantiene validità quando passano dalla triennale alla magistrale mentre la matricola cambia). Il formato dell'id studente a UniVR è id???xxx dove ??? sono 3 cifre e xxx o sono o tutte e tre cifre o tutte e tre lettere minuscole.
+NAME è il nome dello studente
+SURNAME è il cognome dello studente
+"""
+

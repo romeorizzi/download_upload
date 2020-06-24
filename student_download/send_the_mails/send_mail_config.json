@@ -1,0 +1,4 @@
+user: "pinco.pallo@univr.it"
+pwd: "thisIsMySecret"
+server: "smtp.office365.com"
+port: 587

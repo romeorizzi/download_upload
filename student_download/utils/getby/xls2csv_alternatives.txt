@@ -1,0 +1,10 @@
+Linux e Mac:
+
+Credo che xls2csv sia un programma presente di default su Linux e Mac
+
+
+Windows:
+
+xls2csv translators for Windows users:
+
+http://www.tucows.com/preview/605822/Xls2csv

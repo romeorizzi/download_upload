@@ -1,0 +1,39 @@
+============
+Installation
+============
+
+Requirements
+============
+* click https://github.com/pallets/click
+* xlwt https://github.com/python-excel/xlwt
+* python-docx https://github.com/python-openxml/python-docx
+* openpyxl https://bitbucket.org/openpyxl/openpyxl/src
+
+
+Ho prima dovuto installare click:
+
+    $ sudo -H pip install click 
+    $ sudo -H pip install xlwt 
+    $ sudo -H pip install python-docs
+    $ sudo -H pip install openpyxl 
+
+
+At the command line::
+
+    $ sudo pip install docx2csv
+
+(alla fine io ho utilizzato questo sistema)
+
+Or, if you don't have pip installed::
+
+    $ easy_install docx2csv
+
+If you want to install from the latest sources, you can do:
+
+    $ git clone https://github.com/ivbeg/docx2csv.git
+    $ cd docx2csv
+    $ python setup.py docx2csv
+
+
+
+
