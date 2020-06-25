@@ -9,9 +9,10 @@ from email.mime.text import MIMEText
 
 import yaml
 import csv
+import re
 
 CONFIG_MAIL_SERVER_FILE = "../../../send_mail_config.json"
-CSV_FILE_WITH_STUDENTS_LIST = "../lista_studenti_iscritti_con_chiavi.csv"
+CSV_FILE_WITH_STUDENTS = "../lista_studenti_iscritti_con_chiavi.csv"
 
 MYADDRESS = "romeo.rizzi@univr.it"
 CCLIST = ["romeo.rizzi@univr.it","alice.raffaele@univr.it"]
@@ -21,13 +22,26 @@ ATTACHMENTLIST=[]
 
 
 def usage(onstream):
-    print(f"\nUsage: ./{os.path.basename(argv[0])}  {{ SUDO | ME | SAY }} code_of_the_recipient_student\n\n   where the three alternative options are:\n   * SUDO: really act! Send the mail to the person.\n   * ME: send the mail but to myself. In this way I can have a look at a few mails before sending a ton of them.\n   * SAY: only tell the action in the gun but do not really take it.", file=onstream)
+    print(f"\nUsage: ./{os.path.basename(argv[0])}  {{ SUDO | ME | SAY }} code_of_the_recipient_student yyyy-mm-dd\n\n   where the three alternative options are:\n   * SUDO: really act! Send the mail to the person.\n   * ME: send the mail but to myself. In this way I can have a look at a few mails before sending a ton of them.\n   * SAY: only tell the action in the gun but do not really take it.", file=onstream)
 
 # student's code = matricola of the form VR?????? where each ? is a digit.
     
 
 # THE MAIN PROGRAM:
-if len(argv) != 3 or argv[1] not in {"SUDO","ME","SAY"}:
+if len(argv) != 4:
+    print(f"You gave this script {len(argv)-1} parameters. Expecting 3.")
+    usage(stderr)
+    exit(1)
+
+if argv[1] not in {"SUDO","ME","SAY"}:
+    print(f"Your first parameter (namely, {argv[1]}) was neither 'SUDO', nor 'ME' nor 'SAY'.")
+    usage(stderr)
+    exit(1)
+
+DATE=argv[3]
+pattern = re.compile("^[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]$")
+if not pattern.match(DATE):
+    print(f"Your third parameter (namely, {DATE}) should rather be a date of the form yyyy-mm-dd (like e.g. 2020-06-30).")
     usage(stderr)
     exit(1)
 
@@ -35,15 +49,15 @@ DEST_STUDENT_CODE = argv[2]
 
 # NOW WE GET THE STUDENT'S DATA
 
-if not os.path.exists(CSV_FILE_WITH_STUDENTS_LIST):
-    print(f"Questo script ({argv[0]}) opera a partire dal file {CSV_FILE_WITH_STUDENTS_LIST}. Tale file contiene i dati degli studenti necessari all'invio delle mail che forniscano loro i punti di accesso e le credenziali personali. Il file .csv contiene una riga per ogni studente, suddivisa nei campi necessari affinche questo ed altri script della nostra architettura possano svolgere la loro funzione. Lo scritp si attende che tale file od un link ad esso sia presente nella cartella padre di quella dove lo script viene lanciato (che assumiamo essere .../student_download/send_the_mails/).\n\nESECUZIONE INTERROTTA: File {CSV_FILE_WITH_STUDENTS_LIST} con i dati degli studenti necessari all'invio delle mail non trovato.", file=stderr)
+if not os.path.exists(CSV_FILE_WITH_STUDENTS):
+    print(f"Questo script ({argv[0]}) opera a partire dal file {CSV_FILE_WITH_STUDENTS}. Tale file contiene i dati degli studenti necessari all'invio delle mail che forniscano loro i punti di accesso e le credenziali personali. Il file .csv contiene una riga per ogni studente, suddivisa nei campi necessari affinche questo ed altri script della nostra architettura possano svolgere la loro funzione. Lo scritp si attende che tale file od un link ad esso sia presente nella cartella padre di quella dove lo script viene lanciato (che assumiamo essere .../student_download/send_the_mails/).\n\nESECUZIONE INTERROTTA: File {CSV_FILE_WITH_STUDENTS} con i dati degli studenti necessari all'invio delle mail non trovato.", file=stderr)
     exit(1)
 
-with open(f"{CSV_FILE_WITH_STUDENTS_LIST}") as input_file:
+with open(f"{CSV_FILE_WITH_STUDENTS}") as csv_file:
     found = False
-    for row in list(csv.reader(input_file)):
+    for row in list(csv.reader(csv_file)):
        if found and row[1]==DEST_STUDENT_CODE:
-          print(f"WARNING: the student with code ={DEST_STUDENT_CODE} occurs twice in your file {CSV_FILE_WITH_STUDENTS_LIST}\nIn these case we take take the first occurrence as the good one.",file=stderr)
+          print(f"WARNING: the student with code ={DEST_STUDENT_CODE} occurs twice in your file {CSV_FILE_WITH_STUDENTS}\nIn these case we take take the first occurrence as the good one.",file=stderr)
        if not found and row[1]==DEST_STUDENT_CODE:
           found=True
           DEST_ANCHOR = row[3]
@@ -72,7 +86,7 @@ with open(f"{CSV_FILE_WITH_STUDENTS_LIST}") as input_file:
               print(f"However, you called me with the ME option. Therefore, that mail has actually been sent to you ({MYADDRESS}) so that you can have a look at it before proceeding in the sconsiderate act of sending tons of these mails.")
 
 if not found:
-   print(f"CRITICAL ERROR: DEST_STUDENT_CODE={DEST_STUDENT_CODE} not found in the file {CSV_FILE_WITH_STUDENTS_LIST}\nNo action has been taken.",file=stderr)
+   print(f"CRITICAL ERROR: DEST_STUDENT_CODE={DEST_STUDENT_CODE} not found in the file {CSV_FILE_WITH_STUDENTS}\nNo action has been taken.",file=stderr)
    exit(1)
 
 # FINISHED GETTING THE STUDENT'S DATA
@@ -112,7 +126,7 @@ text = f"""
 Caro/a {DEST_NAME} {DEST_SURNAME},
 puoi scaricarti fin da subito il file compresso col tuo testo per l'esame di Ricerca Operativa dall'indirizzo:
 
-   http://profs.sci.univr.it/~rrizzi/classes/RO/shuttle/esame_{DEST_ID}_{DEST_ANCHOR}
+   http://profs.sci.univr.it/~rrizzi/classes/RO/shuttle/esame_RO-{DATE}_{DEST_ANCHOR}_{DEST_ID}/esame_RO-{DATE}_{DEST_ID}.7z
 
 
 Per accedere dovrai immettere la tua matricola nella forma VR?????? come username e la seguente password:
@@ -122,7 +136,7 @@ Password: {DEST_PWD}
 
 In realtà, come sempre, il modo più efficace per procedere è utilizzare dal terminale un comando apposito:
 
-wget --user <VR??????> --password <vedi sopra> http://profs.sci.univr.it/~rrizzi/classes/RO/shuttle/esame_{DEST_ID}_{DEST_ANCHOR}/esameRO_{DEST_ID}.7z
+wget --user <VR??????> --password <vedi sopra> http://profs.sci.univr.it/~rrizzi/classes/RO/shuttle/esame_RO-{DATE}_{DEST_ANCHOR}_{DEST_ID}/esame_RO-{DATE}_{DEST_ID}.7z
 
 Non solo scaricherai il testo d'esame direttamente dove vorrai lavorare al tuo elaborato ma potrai anche beneficiare di tutta la robustezza di wget in caso di connessione instabile.
 
@@ -144,7 +158,7 @@ html = f"""
 <p>Caro/a {DEST_NAME} {DEST_SURNAME},</p>
 <p>puoi scaricarti fin da subito il file compresso col tuo testo per l'esame di Ricerca Operativa dall'indirizzo:</p>
 <p></p>
-<p>   http://profs.sci.univr.it/~rrizzi/classes/RO/shuttle/esame_{DEST_ID}_{DEST_ANCHOR}</p>
+<p>   http://profs.sci.univr.it/~rrizzi/classes/RO/shuttle/esame_RO-{DATE}_{DEST_ANCHOR}_{DEST_ID}/esame_RO-{DATE}_{DEST_ID}.7z</p>
 <p></p>
 <p>Per accedere dovrai immettere la tua matricola nella forma VR?????? come username e la seguente password:</p>
 <p></p>
@@ -153,7 +167,7 @@ html = f"""
 <p></p>
 <p>In realtà, come sempre, il modo più efficace per procedere è utilizzare dal terminale un comando apposito:</p>
 <p></p>
-<p>wget --user <VR??????> --password <vedi sopra> http://profs.sci.univr.it/~rrizzi/classes/RO/shuttle/esame_{DEST_ID}_{DEST_ANCHOR}/esameRO_{DEST_ID}.7z</p>
+<p>wget --user VR?????? --password quella_specificata_sopra http://profs.sci.univr.it/~rrizzi/classes/RO/shuttle/esame_RO-{DATE}_{DEST_ANCHOR}_{DEST_ID}/esame_RO-{DATE}_{DEST_ID}.7z</p>
 <p></p>
 <p>Non solo con wget scaricherai il testo d'esame direttamente dove vorrai lavorare al tuo elaborato ma potrai anche beneficiare di tutta la robustezza di wget in caso di connessione instabile.</p>
 <p></p>

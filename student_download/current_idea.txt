@@ -1,13 +1,22 @@
 Per il download da parte dello studente:
-Non costa nulla mandare a ogni studente, sul suo indirizzo di posta elettronica UniVR (della forma ad esempio VR435956@studenti.univr.it), un'e-mail con il link da cui scaricarsi lo .zip con dentro il testo del suo esame personale.
-Una volta immesso lo URL per accedere alla sua pagina web personale allo studente viene visualizzata una box per l'accesso che lo chiama per nome e cognome e gli chiede di inserire:
-1. la sua matricola
-2. una password che anche possiamo inviargli attraverso la mail (non davvero necessario ma costa davvero poco a tutti).
-Inseriti questi dati può scaricarsi lo zip del suo tema personale.
+manderemo ad ogni studente, sul suo indirizzo di posta elettronica UniVR (quello della forma ad esempio id826yor@studenti.univr.it), un'e-mail con il link da cui scaricarsi l'archivio compresso con dentro il testo del suo esame personale.
+Lui potrà scaricarselo, ad esempio, con:
 
-Questa è una soluzione semplice e pare anche efficace per il download.
+wget --user specific_users_string --password specific_password_string http://profs.sci.univr.it/~rrizzi/classes/RO/shuttle/esame_id826yor_NNCUPAJGiKV2Qsb/esameRO_id826yor.7z
 
-Non fa nessuna differenza in download che non siano usate credenziali GIA (anzi, la nostra credenziale costituita dal link fornito nell'e-mail mandata al suo account personale è qui paradossalmente più potente che non le credenziali GIA, in quanto queste sono one-time one-use):
+dove:
+   specific_users_string = la sua matricola della forma VR?????? dove ciascun ? è una cifra, ad esempio VR425324
+   specific_password_string = la password che gli abbiamo inviato per mail e contenuta nel quinto campo della sua riga nel file lista_studenti_iscritti_con_chiavi.csv
+
+Lo studente potrà scaricarsi il file lista_studenti_iscritti_con_chiavi.csv anche semplicemente cliccando sul link nella mail che gli abbiamo inviato ed inserendo specific_users_string e specific_password_string nella finestra che gli si apre a quel punto. Tale finestra (una box aperta da .htaccess ed .htpasswd collocati sul Web  Server Apache) che compare una volta che lo studente abbia immesso lo URL sopra per accedere alla sua pagina web personale e scaricarsi il file compresso con dentro il suo testo per il tema individuale, saluta e chiama lo studente per nome e cognome, e gli chiede di inserire:
+1. la sua matricola nella forma VR??????
+2. la password inviatagli attraverso la mail (non davvero necessaria ma costa davvero poco a tutti).
+Inseriti questi dati lo studente può scaricarsi lo zip del suo tema personale.
+
+
+Note:
+Questa è una soluzione semplice e anche molto efficace per il download del testo del tema.
+Non fà nessuna differenza in download che non siano usate credenziali GIA (anzi, la nostra credenziale costituita dal link fornito nell'e-mail mandata al suo account personale è qui paradossalmente più potente che non le credenziali GIA, in quanto queste sono one-time one-use):
 l'e-mail arriva allo studente e solo lei/lui ha quindi il link (e ne è quindi in un certo senso più specificamente responsabile che non delle credenziali GIA, dato che quel link è stringa casuale generata specificamente per quello scopo e più lunga e ben più unbreakable delle credenziali GIA, e non possono avergliela nemmeno vista a sua insaputa in altre circostanze).
 Vero è che lo studente potrebbe inoltrare l'e-mail a qualcun altro, ma allora potrebbe anche condividere lo .zip appena dopo averlo scaricato.
 Quindi questo download, facile e robusto, possiamo farlo subito ed è anche più potente di Moodle per intercettare chi abbia cattive intenzioni, perché volendo possiamo anche contare il numero di downloads dello .zip e da dove vengono scaricati, e se uno zip viene scaricato da due parti diverse, allora alziamo una segnalazione.
