@@ -3,6 +3,7 @@ from sys import argv, exit, stderr
 import os
 from shutil import copyfile
 import csv
+import re
 
 CSV_FILE_WITH_STUDENTS_LIST = "../lista_studenti_iscritti_con_chiavi.csv"
 SHUTTLE_FOLDER = "../shuttle"
@@ -12,7 +13,7 @@ GEN_EXAM_VERSION = "../shuttle/template_testo_esame_dummy"
 # script che, per ogni studente che appaia nel file CSV_FILE_WITH_STUDENTS_LIST genera un testo di tema dummy dal template e lo pone in shuttle.
 
 def usage(onstream):
-    print("\nSono lo script che genera tanti temi nominativi quant sono gli studenti ma per semplice copia da un'unico template di tema.\n\nUsage: os.path.basename(argv[0])  yyyy-mm-dd  [ GEN_EXAM_VERSION [ SHUTTLE_FOLDER [ CSV_FILE_WITH_STUDENTS_LIST ] ] ]\n\n   The first parameter is the date of the exam.\n   I tre parametri opzionali ma vanno semmai precisati nell'ordine.\n   GEN_EXAM_VERSION (default {GEN_EXAM_VERSION}\n   SHUTTLE_FOLDER (default {SHUTTLE_FOLDER}\n   CSV_FILE_WITH_STUDENTS_LIST (default {CSV_FILE_WITH_STUDENTS_LIST})", file=onstream)
+    print("\nSono lo script che genera tanti temi nominativi quanti sono gli studenti ma per semplice copia da un'unico template di tema.\n\nUsage: os.path.basename(argv[0])  yyyy-mm-dd  [ GEN_EXAM_VERSION [ SHUTTLE_FOLDER [ CSV_FILE_WITH_STUDENTS_LIST ] ] ]\n\n   The first parameter is the date of the exam.\n   I tre parametri opzionali ma vanno semmai precisati nell'ordine.\n   GEN_EXAM_VERSION (default {GEN_EXAM_VERSION}\n   SHUTTLE_FOLDER (default {SHUTTLE_FOLDER}\n   CSV_FILE_WITH_STUDENTS_LIST (default {CSV_FILE_WITH_STUDENTS_LIST})", file=onstream)
 
 # THE MAIN PROGRAM:
 if len(argv) > 5:
@@ -25,7 +26,7 @@ if len(argv) == 1:
     usage(stderr)
     exit(1)
 
-DATE=argv[3]
+DATE=argv[1]
 pattern = re.compile("^[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]$")
 if not pattern.match(DATE):
     print(f"Your third parameter (namely, {DATE}) should rather be a date of the form yyyy-mm-dd (like e.g. 2020-06-30).")
@@ -51,9 +52,6 @@ if not os.path.exists(CSV_FILE_WITH_STUDENTS_LIST):
     exit(1)
     
     
-DATE = lista_cartelle[0][9:19]
-print(f"Shuttle del {DATE} accende i motori per la partenza. Ultimi controlli in corso ...")
-
 with open(f"{CSV_FILE_WITH_STUDENTS_LIST}") as input_file:
     for row in list(csv.reader(input_file)):
         DEST_STUDENT_CODE = row[1]
@@ -67,4 +65,5 @@ with open(f"{CSV_FILE_WITH_STUDENTS_LIST}") as input_file:
         print(f"genero la cartella del testo d'esame per lo studente {DEST_STUDENT_CODE} {DEST_ID} {DEST_NAME} {DEST_SURNAME}:")
         risp = os.system(f"mkdir {SHUTTLE_FOLDER}/esame_RO-{DATE}_{DEST_ANCHOR}_{DEST_ID}")
         risp = os.system(f"cp -r {GEN_EXAM_VERSION} {SHUTTLE_FOLDER}/esame_RO-{DATE}_{DEST_ANCHOR}_{DEST_ID}/esame_RO-{DATE}_{DEST_ID}")
-        risp = os.system(f"zip -r {SHUTTLE_FOLDER}/esame_RO-{DATE}_{DEST_ANCHOR}_{DEST_ID}/esame_RO-{DATE}_{DEST_ID}")
+        risp = os.system(f"zip -r {SHUTTLE_FOLDER}/esame_RO-{DATE}_{DEST_ANCHOR}_{DEST_ID}/esame_RO-{DATE}_{DEST_ID} {SHUTTLE_FOLDER}/esame_RO-{DATE}_{DEST_ANCHOR}_{DEST_ID}/esame_RO-{DATE}_{DEST_ID}")
+        risp = os.system(f"tar -cvzf {SHUTTLE_FOLDER}/esame_RO-{DATE}_{DEST_ANCHOR}_{DEST_ID}/esame_RO-{DATE}_{DEST_ID}.tgz {SHUTTLE_FOLDER}/esame_RO-{DATE}_{DEST_ANCHOR}_{DEST_ID}/esame_RO-{DATE}_{DEST_ID}")
