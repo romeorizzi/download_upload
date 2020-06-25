@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+from sys import argv, exit, stderr
 import os
 import csv
 import sys
