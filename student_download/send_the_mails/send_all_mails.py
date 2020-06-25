@@ -4,7 +4,7 @@ import os
 from shutil import copyfile
 import csv
 
-CSV_FILE_WITH_STUDENTS_LIST = "../lista_studenti_iscritti_con_chiavi.csv"
+CSV_FILE_WITH_STUDENTS = "../lista_studenti_iscritti_con_chiavi.csv"
 SHUTTLE_FOLDER = "../shuttle/"
 
 # script che invia tutte le mail (prevedendo le te modalità "SUDO","ME","SAY").
@@ -15,7 +15,7 @@ SHUTTLE_FOLDER = "../shuttle/"
 
 
 def usage(onstream):
-    print("\nSono lo script che invia tutte le mail agli studenti per dare avvio all'esame.\n\nUsage: %s  {SUDO | ME | SAY }\n\n   where the three alternative options are:\n   * SUDO: really act! Send all the mails to the person.\n   * ME: send all the mails but just to myself. In this way, I can have a look at a few mails before sending a ton of them.\n   * SAY: only tell the action in the gun but do not really take it." % os.path.basename(argv[0]), file=onstream)
+    print(f"\nSono lo script che invia tutte le mail agli studenti per dare avvio all'esame.\n\nUsage: os.path.basename(argv[0])  {SUDO | ME | SAY }\n\n   where the three alternative options are:\n   * SUDO: really act! Send all the mails to the person.\n   * ME: send all the mails but just to myself. In this way, I can have a look at a few mails before sending a ton of them.\n   * SAY: only tell the action in the gun but do not really take it.", file=onstream)
 
 # THE MAIN PROGRAM:
 if len(argv) != 2 or argv[1] not in {"SUDO","ME","SAY"}:
@@ -23,8 +23,8 @@ if len(argv) != 2 or argv[1] not in {"SUDO","ME","SAY"}:
     exit(1)
 
 
-if not os.path.exists(CSV_FILE_WITH_STUDENTS_LIST):
-    print(f"Questo script ({argv[0]}) opera a partire dal file {CSV_FILE_WITH_STUDENTS_LIST}. Tale file contiene i dati degli studenti necessari all'invio delle mail che forniscano loro i punti di accesso e le credenziali personali. Il file .csv contiene una riga per ogni studente, suddivisa nei campi necessari affinche questo ed altri script della nostra architettura possano svolgere la loro funzione. Lo scritp si attende che tale file od un link ad esso sia presente nella cartella padre di quella dove lo script viene lanciato (che assumiamo essere .../student_download/send_the_mails/).\n\nESECUZIONE INTERROTTA: File {CSV_FILE_WITH_STUDENTS_LIST} con i dati degli studenti necessari all'invio delle mail non trovato.", file=stderr)
+if not os.path.exists(CSV_FILE_WITH_STUDENTS):
+    print(f"Questo script ({argv[0]}) opera a partire dal file {CSV_FILE_WITH_STUDENTS}. Tale file contiene i dati degli studenti necessari all'invio delle mail che forniscano loro i punti di accesso e le credenziali personali. Il file .csv contiene una riga per ogni studente, suddivisa nei campi necessari affinche questo ed altri script della nostra architettura possano svolgere la loro funzione. Lo scritp si attende che tale file od un link ad esso sia presente nella cartella padre di quella dove lo script viene lanciato (che assumiamo essere .../student_download/send_the_mails/).\n\nESECUZIONE INTERROTTA: File {CSV_FILE_WITH_STUDENTS} con i dati degli studenti necessari all'invio delle mail non trovato.", file=stderr)
     exit(1)
 
 if not os.path.exists(SHUTTLE_FOLDER):    
@@ -43,7 +43,7 @@ for name in lista_cartelle:
         print(f"Errore: non tutti i floder in {SHUTTLE_FOLDER} si riferiscono alla data {DATE}. Controlla e, dopo aver ripulito, start me again.")
         exit(1)
     
-with open(f"{CSV_FILE_WITH_STUDENTS_LIST}") as input_file:
+with open(f"{CSV_FILE_WITH_STUDENTS}") as input_file:
     for row in list(csv.reader(input_file)):
         DEST_STUDENT_CODE = row[1]
         DEST_ANCHOR = row[3]
@@ -53,7 +53,7 @@ with open(f"{CSV_FILE_WITH_STUDENTS_LIST}") as input_file:
         DEST_NAME = row[6]
         DEST_SURNAME = row[7]
 
-        # POTREBBE ESSERE OPPORTUNO PREVEDERE QUI' UN CHECK CHE LA CARTELLA CORRISPONDENTE ESISTA IN lista_cartelle  PRIMA DI ROVARE AD INVIARE LA MAIL. 
+        # POTREBBE ESSERE OPPORTUNO PREVEDERE QUI' UN CHECK CHE LA CARTELLA CORRISPONDENTE ESISTA IN lista_cartelle  PRIMA DI PROVARE AD INVIARE LA MAIL. 
 
         print(f"procedo ad inviare la mail allo studente {DEST_STUDENT_CODE} {DEST_ID} {DEST_NAME} {DEST_SURNAME}:")
         risp = os.system(f"./send_one_mail.py SAY {DEST_STUDENT_CODE} {DATE}")

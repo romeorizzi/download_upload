@@ -22,7 +22,7 @@ ATTACHMENTLIST=[]
 
 
 def usage(onstream):
-    print(f"\nUsage: ./{os.path.basename(argv[0])}  {{ SUDO | ME | SAY }} code_of_the_recipient_student yyyy-mm-dd\n\n   where the three alternative options are:\n   * SUDO: really act! Send the mail to the person.\n   * ME: send the mail but to myself. In this way I can have a look at a few mails before sending a ton of them.\n   * SAY: only tell the action in the gun but do not really take it.", file=onstream)
+    print(f"\nUsage: ./{os.path.basename(argv[0])}  {{ SUDO | ME | SAY }} code_of_the_recipient_student yyyy-mm-dd\n\n   where the three alternative options are:\n   * SUDO: really act! Send the mail to the person.\n   * ME: send the mail but to myself. In this way I can have a look at a few mails before sending a ton of them.\n   * SAY: only tell the action in the gun but do not really take it.\n\n   In my case in UniVR the code of the student has the form VR??????\n   The last parameter is the date of the exam.", file=onstream)
 
 # student's code = matricola of the form VR?????? where each ? is a digit.
     

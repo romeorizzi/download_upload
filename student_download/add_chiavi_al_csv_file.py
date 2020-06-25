@@ -94,7 +94,7 @@ trantab = str.maketrans(intab, outtab)
 fout = open(OUTPUT_FILE,"w")
 with open(INPUT_FILE,"r") as fin:
     i = 0
-    for line in list(fin) + ['"VR123456","TEST","MY","2001/2002","id855gpk@studenti.univr.it"']:  # AGGIUNTA UN'ULTIMA UTENZA PER IL TESTING:
+    for line in list(fin) + ['"VR123456","TEST","MY","2001/2002","id123456@studenti.univr.it"']:  # AGGIUNTA UN'ULTIMA UTENZA PER IL TESTING:
        i+=1 
        MATRICOLA, SURNAME, NAME, YEAR, MAILADR_ID = line.strip().split(',')
        MATRICOLA = re.sub('["]', '', MATRICOLA).translate(trantab)
