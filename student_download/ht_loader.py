@@ -3,7 +3,7 @@ from sys import argv, exit, stderr
 import os
 import csv
 import sys
-import ro
+import re
 from passlib.apache import HtpasswdFile
 
 CSV_FILE_WITH_STUDENTS = "lista_studenti_iscritti_con_chiavi.csv"
