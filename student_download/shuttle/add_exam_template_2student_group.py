@@ -5,15 +5,15 @@ from shutil import copyfile
 import csv
 import re
 
-CSV_FILE_WITH_STUDENTS_LIST = "../lista_studenti_iscritti_con_chiavi.csv"
+CSV_FILE_WITH_STUDENTS_GROUP = "../lista_studenti_iscritti_con_chiavi.csv"
 SHUTTLE_FOLDER = "../shuttle"
 GEN_EXAM_VERSION = "../shuttle/template_testo_esame_dummy"
 
 
-# script che, per ogni studente che appaia nel file CSV_FILE_WITH_STUDENTS_LIST genera un testo di tema dummy dal template e lo pone in shuttle.
+# script che, per ogni studente che appaia nel file CSV_FILE_WITH_STUDENTS_GROUP genera un testo di tema dummy dal template e lo pone in shuttle.
 
 def usage(onstream):
-    print("\nSono lo script che genera tanti temi nominativi quanti sono gli studenti ma per semplice copia da un'unico template di tema.\n\nUsage: os.path.basename(argv[0])  yyyy-mm-dd  [ GEN_EXAM_VERSION [ SHUTTLE_FOLDER [ CSV_FILE_WITH_STUDENTS_LIST ] ] ]\n\n   The first parameter is the date of the exam.\n   I tre parametri opzionali ma vanno semmai precisati nell'ordine.\n   GEN_EXAM_VERSION (default {GEN_EXAM_VERSION}\n   SHUTTLE_FOLDER (default {SHUTTLE_FOLDER}\n   CSV_FILE_WITH_STUDENTS_LIST (default {CSV_FILE_WITH_STUDENTS_LIST})", file=onstream)
+    print("\nSono lo script che genera tanti temi nominativi quanti sono gli studenti ma per semplice copia da un'unico template di tema.\n\nUsage: os.path.basename(argv[0])  yyyy-mm-dd  [ GEN_EXAM_VERSION [ SHUTTLE_FOLDER [ CSV_FILE_WITH_STUDENTS_GROUP ] ] ]\n\n   The first parameter is the date of the exam.\n   I tre parametri opzionali che vanno semmai precisati nell'ordine sono:\n   GEN_EXAM_VERSION (default {GEN_EXAM_VERSION}\n   SHUTTLE_FOLDER (default {SHUTTLE_FOLDER}\n   CSV_FILE_WITH_STUDENTS_GROUP (default {CSV_FILE_WITH_STUDENTS_GROUP})", file=onstream)
 
 # THE MAIN PROGRAM:
 if len(argv) > 5:
@@ -37,22 +37,22 @@ if len(argv) > 2:
 if len(argv) > 3:
     SHUTTLE_FOLDER = argv[3]
 if len(argv) > 4:
-    CSV_FILE_WITH_STUDENTS_LIST = argv[4]
+    CSV_FILE_WITH_STUDENTS_GROUP = argv[4]
 
 if not os.path.exists(GEN_EXAM_VERSION):
-    print(f"Questo script ({argv[0]}) opera a partire dalla cartella GEN_EXAM_VERSION che contiene il testo del tema unico da distribuire a tutto il gruppo di studenti listati nel file CSV_FILE_WITH_STUDENTS_LIST={CSV_FILE_WITH_STUDENTS_LIST}.\n\nESECUZIONE INTERROTTA: File GEN_EXAM_VERSION={GEN_EXAM_VERSION} non trovato.", file=stderr)
+    print(f"Questo script ({argv[0]}) opera a partire dalla cartella GEN_EXAM_VERSION che contiene il testo del tema unico da distribuire a tutto il gruppo di studenti listati nel file CSV_FILE_WITH_STUDENTS_GROUP={CSV_FILE_WITH_STUDENTS_GROUP}.\n\nESECUZIONE INTERROTTA: File GEN_EXAM_VERSION={GEN_EXAM_VERSION} non trovato.", file=stderr)
     exit(1)
     
 if not os.path.exists(SHUTTLE_FOLDER):
     print(f"Questo script ({argv[0]}) ripone nel folder SHUTTLE_FOLDER il testo del tema di esame che si trova nella cartella GEN_EXAM_VERSION.\n\nESECUZIONE INTERROTTA: File SHUTTLE_FOLDER={SHUTTLE_FOLDER} non trovato.", file=stderr)
     exit(1)
     
-if not os.path.exists(CSV_FILE_WITH_STUDENTS_LIST):
-    print(f"Questo script ({argv[0]}) opera a partire dal file CSV_FILE_WITH_STUDENTS_LIST che contiene i dati degli studenti necessari all'invio delle mail che forniscano loro i punti di accesso e le credenziali personali.\n\nESECUZIONE INTERROTTA: File CSV_FILE_WITH_STUDENTS_LIST={CSV_FILE_WITH_STUDENTS_LIST} non trovato.", file=stderr)
+if not os.path.exists(CSV_FILE_WITH_STUDENTS_GROUP):
+    print(f"Questo script ({argv[0]}) opera a partire dal file CSV_FILE_WITH_STUDENTS_GROUP che contiene i dati degli studenti necessari all'invio delle mail che forniscano loro i punti di accesso e le credenziali personali.\n\nESECUZIONE INTERROTTA: File CSV_FILE_WITH_STUDENTS_GROUP={CSV_FILE_WITH_STUDENTS_GROUP} non trovato.", file=stderr)
     exit(1)
     
     
-with open(f"{CSV_FILE_WITH_STUDENTS_LIST}") as input_file:
+with open(f"{CSV_FILE_WITH_STUDENTS_GROUP}") as input_file:
     for row in list(csv.reader(input_file)):
         DEST_STUDENT_CODE = row[1]
         DEST_ANCHOR = row[3]
