@@ -94,7 +94,7 @@ trantab = str.maketrans(intab, outtab)
 fout = open(OUTPUT_FILE,"w")
 with open(INPUT_FILE,"r") as fin:
     i = 0
-    for line in fin:
+    for line in list(fin) + ['"VR123456","TEST","MY","2001/2002","id855gpk@studenti.univr.it"']:  # AGGIUNTA UN'ULTIMA UTENZA PER IL TESTING:
        i+=1 
        MATRICOLA, SURNAME, NAME, YEAR, MAILADR_ID = line.strip().split(',')
        MATRICOLA = re.sub('["]', '', MATRICOLA).translate(trantab)
@@ -116,7 +116,9 @@ with open(INPUT_FILE,"r") as fin:
        else:
            ANCHOR = ''.join([random.choice(string.ascii_letters + string.digits) for n in range(length_anchor)])
            fout.write(MAILADR_MAT + "," + MATRICOLA + "," + YEAR + "," + ANCHOR + "," + PASSWORD + "," + MAILADR_ID + "," + NAME + "," + SURNAME + "\n")
-print(f"Fatto! Il file {OUTPUT_FILE} è stato costruito e contiene {i} records.")
+           
+           
+print(f"Fatto! Il file {OUTPUT_FILE} è stato costruito e contiene {i} records (l'ultimo è lo studente fake MY TEST).")
 
 """ LEGENDA DEL RECORD DROPPATO SU FILE lista_studenti_iscritti_con_chiavi.csv:
 

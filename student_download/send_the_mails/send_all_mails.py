@@ -56,4 +56,4 @@ with open(f"{CSV_FILE_WITH_STUDENTS_LIST}") as input_file:
         # POTREBBE ESSERE OPPORTUNO PREVEDERE QUI' UN CHECK CHE LA CARTELLA CORRISPONDENTE ESISTA IN lista_cartelle  PRIMA DI ROVARE AD INVIARE LA MAIL. 
 
         print(f"procedo ad inviare la mail allo studente {DEST_STUDENT_CODE} {DEST_ID} {DEST_NAME} {DEST_SURNAME}:")
-        risp = os.system(f"./sendMail.py SAY {DEST_STUDENT_CODE} {DATE}")
+        risp = os.system(f"./send_one_mail.py SAY {DEST_STUDENT_CODE} {DATE}")
