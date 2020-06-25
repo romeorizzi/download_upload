@@ -3,8 +3,8 @@ import csv
 import sys
 from passlib.apache import HtpasswdFile
 
-CSV_FILE_WITH_STUDENTS = "../lista_studenti_iscritti_con_chiavi.csv"
-SHUTTLE_FOLDER = "../shuttle/"
+CSV_FILE_WITH_STUDENTS = "lista_studenti_iscritti_con_chiavi.csv"
+SHUTTLE_FOLDER = "shuttle/"
 
 def usage(onstream):
     print(f"\nUsage: ./{os.path.basename(argv[0])}  yyyy-mm-dd  [ shuttle_folder [ csv_students_file [ {{ md5 | clear }} ] ] ]\n\n   The first parameter is the date of the exam.\n   I tre parametri opzionali che vanno semmai precisati nell'ordine sono:\n   shuttle_folder (default {SHUTTLE_FOLDER}) che specifica il percorso della cartella shuttle\n   csv_students_file (default {CSV_FILE_WITH_STUDENTS}) che specifica il percorso del csv file con le credenziali degli studenti\n   the third optional parameter is either literally 'md5' when present) se si vuole l'encryption di tipo md5 oppure 'clear' se si vuole che le credenziali siano gestite in chiaro da htpasswd.\n\nSi presume che in shuttle ci siano gi le cartelle degli studenti cos nominate '22-06-30_anchor_matricola'.\nLo script va a creare in ogni cartella i due file .htaccess e .htpasswd (user  la matricola, la password  quella del csv file).", file=onstream)
