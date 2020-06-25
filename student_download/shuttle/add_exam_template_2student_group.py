@@ -63,8 +63,10 @@ with open(f"{CSV_FILE_WITH_STUDENTS_GROUP}") as input_file:
         DEST_SURNAME = row[7]
 
         print(f"genero la cartella del testo d'esame per lo studente {DEST_STUDENT_CODE} {DEST_ID} {DEST_NAME} {DEST_SURNAME}:")
+        risp = os.system(f"cp -r {GEN_EXAM_VERSION} esame_RO-{DATE}_{DEST_ID}")
+        risp = os.system(f"tar -cvzf esame_RO-{DATE}_{DEST_ID}.tgz esame_RO-{DATE}_{DEST_ID}")
+        risp = os.system(f"zip -r esame_RO-{DATE}_{DEST_ID} esame_RO-{DATE}_{DEST_ID}")
         risp = os.system(f"mkdir {SHUTTLE_FOLDER}/esame_RO-{DATE}_{DEST_ANCHOR}_{DEST_ID}")
-        risp = os.system(f"cp -r {GEN_EXAM_VERSION} {SHUTTLE_FOLDER}/esame_RO-{DATE}_{DEST_ANCHOR}_{DEST_ID}/esame_RO-{DATE}_{DEST_ID}")
-        risp = os.system(f"zip -r {SHUTTLE_FOLDER}/esame_RO-{DATE}_{DEST_ANCHOR}_{DEST_ID}/esame_RO-{DATE}_{DEST_ID} {SHUTTLE_FOLDER}/esame_RO-{DATE}_{DEST_ANCHOR}_{DEST_ID}/esame_RO-{DATE}_{DEST_ID}")
-        risp = os.system(f"tar -cvzf {SHUTTLE_FOLDER}/esame_RO-{DATE}_{DEST_ANCHOR}_{DEST_ID}/esame_RO-{DATE}_{DEST_ID}.tgz {SHUTTLE_FOLDER}/esame_RO-{DATE}_{DEST_ANCHOR}_{DEST_ID}/esame_RO-{DATE}_{DEST_ID}")
-        risp = os.system(f"rm -rf {SHUTTLE_FOLDER}/esame_RO-{DATE}_{DEST_ANCHOR}_{DEST_ID}/esame_RO-{DATE}_{DEST_ID}")
+        risp = os.system(f"mv esame_RO-{DATE}_{DEST_ID}.tgz {SHUTTLE_FOLDER}/esame_RO-{DATE}_{DEST_ANCHOR}_{DEST_ID}")
+        risp = os.system(f"mv esame_RO-{DATE}_{DEST_ID}.zip {SHUTTLE_FOLDER}/esame_RO-{DATE}_{DEST_ANCHOR}_{DEST_ID}")
+        risp = os.system(f"rm -rf esame_RO-{DATE}_{DEST_ID}")
