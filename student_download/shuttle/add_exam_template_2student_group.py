@@ -6,8 +6,8 @@ import csv
 import re
 
 CSV_FILE_WITH_STUDENTS_GROUP = "../lista_studenti_iscritti_con_chiavi.csv"
-SHUTTLE_FOLDER = "../shuttle"
-GEN_EXAM_VERSION = "../shuttle/template_testo_esame_dummy"
+SHUTTLE_FOLDER = "."
+GEN_EXAM_VERSION = "template_testo_esame_dummy"
 
 
 # script che, per ogni studente che appaia nel file CSV_FILE_WITH_STUDENTS_GROUP genera un testo di tema dummy dal template e lo pone in shuttle.
@@ -67,3 +67,4 @@ with open(f"{CSV_FILE_WITH_STUDENTS_GROUP}") as input_file:
         risp = os.system(f"cp -r {GEN_EXAM_VERSION} {SHUTTLE_FOLDER}/esame_RO-{DATE}_{DEST_ANCHOR}_{DEST_ID}/esame_RO-{DATE}_{DEST_ID}")
         risp = os.system(f"zip -r {SHUTTLE_FOLDER}/esame_RO-{DATE}_{DEST_ANCHOR}_{DEST_ID}/esame_RO-{DATE}_{DEST_ID} {SHUTTLE_FOLDER}/esame_RO-{DATE}_{DEST_ANCHOR}_{DEST_ID}/esame_RO-{DATE}_{DEST_ID}")
         risp = os.system(f"tar -cvzf {SHUTTLE_FOLDER}/esame_RO-{DATE}_{DEST_ANCHOR}_{DEST_ID}/esame_RO-{DATE}_{DEST_ID}.tgz {SHUTTLE_FOLDER}/esame_RO-{DATE}_{DEST_ANCHOR}_{DEST_ID}/esame_RO-{DATE}_{DEST_ID}")
+        risp = os.system(f"rm -rf {SHUTTLE_FOLDER}/esame_RO-{DATE}_{DEST_ANCHOR}_{DEST_ID}/esame_RO-{DATE}_{DEST_ID}")
