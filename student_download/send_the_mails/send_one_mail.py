@@ -126,9 +126,13 @@ SUBJECT="ESAME di Ricerca Operativa: ecco l'ancora privata e le tue credenziali 
 
 text = f"""
 Caro/a {DEST_NAME} {DEST_SURNAME},
-puoi scaricarti fin da subito il file compresso col tuo testo per l'esame di Ricerca Operativa dall'indirizzo:
+puoi scaricarti fin da subito il file compresso col tuo testo per l'esame di Ricerca Operativa:
 
-   http://profs.sci.univr.it/~rrizzi/classes/RO/shuttle/esame_RO-{DATE}_{DEST_ANCHOR}_{DEST_ID}/esame_RO-{DATE}_{DEST_ID}.{EXT_COMPRESSION}
+   Se preferisci un file .zip:
+   http://profs.sci.univr.it/~rrizzi/classes/RO/shuttle/esame_RO-{DATE}_{DEST_ANCHOR}_{DEST_ID}/esame_RO-{DATE}_{DEST_ID}.zip
+
+   Se preferisci un file .tgz:
+   http://profs.sci.univr.it/~rrizzi/classes/RO/shuttle/esame_RO-{DATE}_{DEST_ANCHOR}_{DEST_ID}/esame_RO-{DATE}_{DEST_ID}.zip
 
 
 Per accedere dovrai immettere la tua matricola nella forma VR?????? come username e la seguente password:
@@ -138,9 +142,11 @@ Password: {DEST_PWD}
 
 In realtà, come sempre, il modo più efficace per procedere è utilizzare dal terminale un comando apposito:
 
-wget --user <VR??????> --password <vedi sopra> http://profs.sci.univr.it/~rrizzi/classes/RO/shuttle/esame_RO-{DATE}_{DEST_ANCHOR}_{DEST_ID}/esame_RO-{DATE}_{DEST_ID}.{EXT_COMPRESSION}
+wget --user <VR??????> --password <vedi sopra> http://profs.sci.univr.it/~rrizzi/classes/RO/shuttle/esame_RO-{DATE}_{DEST_ANCHOR}_{DEST_ID}/esame_RO-{DATE}_{DEST_ID}.zip
 
-Non solo scaricherai il testo d'esame direttamente dove vorrai lavorare al tuo elaborato ma potrai anche beneficiare di tutta la robustezza di wget in caso di connessione instabile.
+wget --user <VR??????> --password <vedi sopra> http://profs.sci.univr.it/~rrizzi/classes/RO/shuttle/esame_RO-{DATE}_{DEST_ANCHOR}_{DEST_ID}/esame_RO-{DATE}_{DEST_ID}.tgz
+
+In questo modo non solo scaricherai il testo d'esame direttamente dove vorrai lavorare al tuo elaborato ma potrai anche beneficiare di tutta la robustezza di wget in caso di connessione instabile.
 
 Buon Esame!
 
@@ -158,9 +164,13 @@ Ricordati di specificare bene il problema tecnico riscontrato e di identificarti
 html = f"""
 <html><body>
 <p>Caro/a {DEST_NAME} {DEST_SURNAME},</p>
-<p>puoi scaricarti fin da subito il file compresso col tuo testo per l'esame di Ricerca Operativa dall'indirizzo:</p>
+<p>puoi scaricarti fin da subito il file compresso col tuo testo per l'esame di Ricerca Operativa:</p>
 <p></p>
-<p>   http://profs.sci.univr.it/~rrizzi/classes/RO/shuttle/esame_RO-{DATE}_{DEST_ANCHOR}_{DEST_ID}/esame_RO-{DATE}_{DEST_ID}.{EXT_COMPRESSION}</p>
+<p>Se preferisci un file .zip:</p>
+<p><a href="http://profs.sci.univr.it/~rrizzi/classes/RO/shuttle/esame_RO-{DATE}_{DEST_ANCHOR}_{DEST_ID}/esame_RO-{DATE}_{DEST_ID}.zip">http://profs.sci.univr.it/~rrizzi/classes/RO/shuttle/esame_RO-{DATE}_{DEST_ANCHOR}_{DEST_ID}/esame_RO-{DATE}_{DEST_ID}.zip</a></p>
+<p></p>
+<p>Se preferisci un file .tgz:</p>
+<p><a href="http://profs.sci.univr.it/~rrizzi/classes/RO/shuttle/esame_RO-{DATE}_{DEST_ANCHOR}_{DEST_ID}/esame_RO-{DATE}_{DEST_ID}.tgz">http://profs.sci.univr.it/~rrizzi/classes/RO/shuttle/esame_RO-{DATE}_{DEST_ANCHOR}_{DEST_ID}/esame_RO-{DATE}_{DEST_ID}.tgz</a></p>
 <p></p>
 <p>Per accedere dovrai immettere la tua matricola nella forma VR?????? come username e la seguente password:</p>
 <p></p>
@@ -169,9 +179,11 @@ html = f"""
 <p></p>
 <p>In realtà, come sempre, il modo più efficace per procedere è utilizzare dal terminale un comando apposito:</p>
 <p></p>
-<p>wget --user VR?????? --password quella_specificata_sopra http://profs.sci.univr.it/~rrizzi/classes/RO/shuttle/esame_RO-{DATE}_{DEST_ANCHOR}_{DEST_ID}/esame_RO-{DATE}_{DEST_ID}.{EXT_COMPRESSION}</p>
+<p>wget --user VR?????? --password quella_specificata_sopra http://profs.sci.univr.it/~rrizzi/classes/RO/shuttle/esame_RO-{DATE}_{DEST_ANCHOR}_{DEST_ID}/esame_RO-{DATE}_{DEST_ID}.zip</p>
 <p></p>
-<p>Non solo con wget scaricherai il testo d'esame direttamente dove vorrai lavorare al tuo elaborato ma potrai anche beneficiare di tutta la robustezza di wget in caso di connessione instabile.</p>
+<p>wget --user VR?????? --password quella_specificata_sopra http://profs.sci.univr.it/~rrizzi/classes/RO/shuttle/esame_RO-{DATE}_{DEST_ANCHOR}_{DEST_ID}/esame_RO-{DATE}_{DEST_ID}.tgz</p>
+<p></p>
+<p>In questo modo non solo scaricherai il testo d'esame direttamente dove vorrai lavorare al tuo elaborato ma potrai anche beneficiare di tutta la robustezza di wget in caso di connessione instabile.</p>
 <p></p>
 <p></p>
 <p>Buon Esame!</p>
