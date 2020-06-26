@@ -38,11 +38,11 @@ Accedi a [Filesender GARR](https://wayf.idem.garr.it/WAYF?entityID=https%3A%2F%2
 ```
 Questo è quanto. Ma se ti abbiamo perso percorriamo ora insieme i passi necessari accompagnandoti coi nostri Screenshots.
 
-Parti caricando lo URL [`https://filesender.garr.it/`](https://filesender.garr.it/)  dentro il tuo browswr. Così facendo verrai accolto da una schermata di benvenuto:
+Parti caricando lo URL [`https://filesender.garr.it/`](https://filesender.garr.it/)  dentro il tuo browser. Così facendo verrai accolto da una schermata di benvenuto:
 
 ![Figura: schermata che certifica il tuo invio del file tramite Filesender GARR](schermate/benvenuto_in_FilsesenderGARR.png)
 
-Premuto il tasto "Accedi" (dove, a seconda di come configurato il tuo locale, potrebbe esserci stato scritto invece "Logon"), ti viene chiesto di specificare l'ente consorziato a rete GARR attraverso le cui credenziali autenticarti ed accedere al servizio. Scegli l'Università di Verona.
+Premuto il tasto "Accedi" (dove, a seconda di come configurato il tuo locale, potrebbe esserci stato scritto invece "Login"), ti viene chiesto di specificare l'ente consorziato a rete GARR attraverso le cui credenziali autenticarti ed accedere al servizio. Scegli l'Università di Verona.
 
 ![Figura: menù da cui scegliere l'Università di Verona come tuo ente certificante](schermate/scegliere_UniVR.png)
 
@@ -59,10 +59,9 @@ Ma la cosa importante a questo punto è che tu abbia cura di inserire nel campo 
 ```
 
 
- Devi inoltre avere cura di allegare i file che desideri inviare (a noi basta il compresso della cartella esameRO-data-matricola entro la quale avrai lavorato).
+Devi inoltre avere cura di allegare i file che desideri inviare (a noi basta il compresso della cartella esameRO-data-matricola entro la quale avrai lavorato).
 
-Solo dopo avere aggiunto tale allegato potrai comandare l'invio pigiando nell'area bassa della schermata dove la freccia bianca dentro la nuvola è l'icona che vorrebbe indicare l'upload.
-
+Solo dopo avere aggiunto tale allegato potrai accettare i termini di servizio del servizio per attivare poi il tasto "Invio", pigiando nell'area bassa della schermata dove la freccia bianca dentro la nuvola è l'icona che vorrebbe indicare l'upload.
 
 Una volta concluso l'invio, cliccando su "I miei trasferimenti" e poi su "Vedi i log di trasferimento" ottieni una schermata analoga alla seguente. Essa ti offre conferma dell'avvenuto invio e potrà in qualche modo consentirti di certificarlo qualora qualcosa dovesse andare storto:
 
