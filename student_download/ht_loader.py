@@ -53,25 +53,26 @@ Require valid-user
 with open(f"{CSV_FILE_WITH_STUDENTS}", "r") as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=',')
     for lines in csv_reader:
-        csv_dict.update({lines[1]:{'name':None,'surname':None,'psw':None,'anchor':None,'id_mail_address':None,'id':None}})
-        csv_dict[lines[1]].update({'name':lines[6]})
-        csv_dict[lines[1]].update({'surname':lines[7]})
-        csv_dict[lines[1]].update({'psw':lines[4]})
-        csv_dict[lines[1]].update({'anchor':lines[3]})
-        csv_dict[lines[1]].update({'id_mail_address':lines[5]})
-        csv_dict[lines[1]].update({'id':lines[5].split("@")[0]})
+        id=lines[5].split("@")[0]
+        csv_dict.update({id:{'name':None,'surname':None,'psw':None,'anchor':None,'id_mail_address':None,'matricola':None}})
+        csv_dict[id].update({'name':lines[6]})
+        csv_dict[id].update({'surname':lines[7]})
+        csv_dict[id].update({'psw':lines[4]})
+        csv_dict[id].update({'anchor':lines[3]})
+        csv_dict[id].update({'id_mail_address':lines[5]})
+        csv_dict[id].update({'matricola':lines[1]})
 
 #uncomment to create all empty student dirs {SHUTTLE_FOLDER}/esameRO-{DATE}_anchor_matricola
 """
 for key in csv_dict:
-    os.mkdir(f"{SHUTTLE_FOLDER}/esameRO-{DATE}_{csv_dict[key]['anchor']}_{csv_dict[key]['id']}/")
+    os.mkdir(f"{SHUTTLE_FOLDER}/esameRO-{DATE}_{csv_dict[key]['anchor']}_{key}/")
 """
 
 #create .htaccess and .htpasswd (user:matricola)
 def create_ht(key,filename,htaccess,csv_dict):
-    user_htaccess = htaccess.replace('auth_name','"'+key+'"').replace('psw_path',SHUTTLE_FOLDER+'/'+filename+'/.htpasswd')
+    user_htaccess = htaccess.replace('auth_name','"'+csv_dict[key]['matricola']+'"').replace('psw_path',SHUTTLE_FOLDER+'/'+filename+'/.htpasswd')
     ht = HtpasswdFile(SHUTTLE_FOLDER+'/'+filename+'/.htpasswd', new=True)
-    ht.set_password(key,csv_dict[key]['psw'])
+    ht.set_password(csv_dict[key]['matricola'],csv_dict[key]['psw'])
     ht.set_password("rizzi_admin","rizzi_admin")
     ht.save()
     with open(SHUTTLE_FOLDER+'/'+filename+'/.htaccess','w') as f:
