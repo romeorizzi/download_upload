@@ -9,7 +9,9 @@
 *.xls
 *.csv
 *.docx
-DEST_*
+
+# sudent downloads
+student_download/shuttle/esame_**
 
 # backups
 *~

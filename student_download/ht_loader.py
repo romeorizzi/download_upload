@@ -1,26 +1,41 @@
+#!/usr/bin/python3
+from sys import argv, exit, stderr
 import os
 import csv
 import sys
+import re
 from passlib.apache import HtpasswdFile
 
-CSV_FILE_WITH_STUDENTS = "../lista_studenti_iscritti_con_chiavi.csv"
-SHUTTLE_FOLDER = "../shuttle/"
+CSV_FILE_WITH_STUDENTS = "lista_studenti_iscritti_con_chiavi.csv"
+SHUTTLE_FOLDER = "shuttle"
 
 def usage(onstream):
-    print(f"\nUsage: ./{os.path.basename(argv[0])}  [ shuttle_folder [ csv_students_file [ {{ md5 | clear }} ] ] ]\n\n   where the first optional parameter shuttle_folder  il percorso della cartella shuttle (default {SHUTTLE_FOLDER})\n   the second optional parameter csv_students_file  il percorso del csv file con le credenziali degli studenti (default {CSV_FILE_WITH_STUDENTS})\n   the third optional parameter is either literally 'md5' when present) se si vuole l'encryption di tipo md5 oppure 'clear' se si vuole che le credenziali siano gestite in chiaro da htpasswd.\n\nSi presume che in shuttle ci siano gi le cartelle degli studenti cos nominate '22-06-30_anchor_matricola'.\nLo script va a creare in ogni cartella i due file .htaccess e .htpasswd (user  la matricola, la password  quella del csv file).", file=onstream)
+    print(f"\nUsage: ./{os.path.basename(argv[0])}  yyyy-mm-dd  [ shuttle_folder [ csv_students_file [ {{ md5 | clear }} ] ] ]\n\n   The first parameter is the date of the exam.\n   I tre parametri opzionali che vanno semmai precisati nell'ordine sono:\n   shuttle_folder (default {SHUTTLE_FOLDER}) che specifica il percorso della cartella shuttle\n   csv_students_file (default {CSV_FILE_WITH_STUDENTS}) che specifica il percorso del csv file con le credenziali degli studenti\n   the third optional parameter is either literally 'md5' when present) se si vuole l'encryption di tipo md5 oppure 'clear' se si vuole che le credenziali siano gestite in chiaro da htpasswd.\n\nSi presume che in shuttle ci siano gi le cartelle degli studenti cos nominate '22-06-30_anchor_matricola'.\nLo script va a creare in ogni cartella i due file .htaccess e .htpasswd (user  la matricola, la password  quella del csv file).", file=onstream)
  
 # THE MAIN PROGRAM:
-if len(argv) > 4:
-    print(f"You gave this script {len(argv)-1} parameters. Expecting at most 3 (all optionals).")
+if len(argv) > 5:
+    print(f"You gave this script {len(argv)-1} parameters. Expecting at most 4 (all optionals).")
     usage(stderr)
     exit(1)
 
-if len(argv) > 1:    
-    SHUTTLE_FOLDER = sys.argv[1]
+if len(argv) == 1:
+    print(f"You gave this script no parameter but at least the date of the exam is mandatory.")
+    usage(stderr)
+    exit(1)
+
+DATE=argv[1]
+pattern = re.compile("^[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]$")
+if not pattern.match(DATE):
+    print(f"Your third parameter (namely, {DATE}) should rather be a date of the form yyyy-mm-dd (like e.g. 2020-06-30).")
+    usage(stderr)
+    exit(1)
+    
 if len(argv) > 2:    
-    CSV_FILE_WITH_STUDENTS = sys.argv[2]
-if len(argv) == 4 and argv[3] != "md5" and argv[3] != "clear":
-    print(f"You gave this script a third parameter {argv[3]}. However, when the third parameter is present it should be either 'md5' or 'clear'.")
+    SHUTTLE_FOLDER = sys.argv[2]
+if len(argv) > 3:    
+    CSV_FILE_WITH_STUDENTS = sys.argv[3]
+if len(argv) == 5 and argv[4] != "md5" and argv[4] != "clear":
+    print(f"You gave this script a third parameter {argv[4]}. However, when the third parameter is present it should be either 'md5' or 'clear'.")
     usage(stderr)
     exit(1)
 
@@ -38,23 +53,26 @@ Require valid-user
 with open(f"{CSV_FILE_WITH_STUDENTS}", "r") as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=',')
     for lines in csv_reader:
-        csv_dict.update({lines[1]:{'name':None,'surname':None,'psw':None,'anchor':None}})
-        csv_dict[lines[1]].update({'name':lines[6]})
-        csv_dict[lines[1]].update({'surname':lines[7]})
-        csv_dict[lines[1]].update({'psw':lines[4]})
-        csv_dict[lines[1]].update({'anchor':lines[3]})
+        id=lines[5].split("@")[0]
+        csv_dict.update({id:{'name':None,'surname':None,'psw':None,'anchor':None,'id_mail_address':None,'matricola':None}})
+        csv_dict[id].update({'name':lines[6]})
+        csv_dict[id].update({'surname':lines[7]})
+        csv_dict[id].update({'psw':lines[4]})
+        csv_dict[id].update({'anchor':lines[3]})
+        csv_dict[id].update({'id_mail_address':lines[5]})
+        csv_dict[id].update({'matricola':lines[1]})
 
-#uncomment to create all empty student dirs 2020-06-30_anchor_matricola
+#uncomment to create all empty student dirs {SHUTTLE_FOLDER}/esameRO-{DATE}_anchor_matricola
 """
 for key in csv_dict:
-    os.mkdir(SHUTTLE_FOLDER+'/2020-06-30_'+csv_dict[key]['anchor']+'_'+key+'/')
+    os.mkdir(f"{SHUTTLE_FOLDER}/esameRO-{DATE}_{csv_dict[key]['anchor']}_{key}/")
 """
 
 #create .htaccess and .htpasswd (user:matricola)
 def create_ht(key,filename,htaccess,csv_dict):
-    user_htaccess = htaccess.replace('auth_name','"'+key+'"').replace('psw_path',SHUTTLE_FOLDER+'/'+filename+'/.htpasswd')
+    user_htaccess = htaccess.replace('auth_name','"'+csv_dict[key]['matricola']+'"').replace('psw_path',SHUTTLE_FOLDER+'/'+filename+'/.htpasswd')
     ht = HtpasswdFile(SHUTTLE_FOLDER+'/'+filename+'/.htpasswd', new=True)
-    ht.set_password(key,csv_dict[key]['psw'])
+    ht.set_password(csv_dict[key]['matricola'],csv_dict[key]['psw'])
     ht.set_password("rizzi_admin","rizzi_admin")
     ht.save()
     with open(SHUTTLE_FOLDER+'/'+filename+'/.htaccess','w') as f:
