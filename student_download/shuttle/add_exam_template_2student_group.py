@@ -64,6 +64,7 @@ with open(f"{CSV_FILE_WITH_STUDENTS_GROUP}") as input_file:
 
         print(f"genero la cartella del testo d'esame per lo studente {DEST_STUDENT_CODE} {DEST_ID} {DEST_NAME} {DEST_SURNAME}:")
         risp = os.system(f"cp -r {GEN_EXAM_VERSION} esame_RO-{DATE}_{DEST_ID}")
+        risp = os.system(f"echo Benvenuto {DEST_NAME} nel folder dove elaborerai il tuo esame e che infine, dopo aver trasformato in un file compresso, ci consegnerai alla fine. > esame_RO-{DATE}_{DEST_ID}/BENVENUTO.md")
         risp = os.system(f"tar -cvzf esame_RO-{DATE}_{DEST_ID}.tgz esame_RO-{DATE}_{DEST_ID}")
         risp = os.system(f"zip -r esame_RO-{DATE}_{DEST_ID} esame_RO-{DATE}_{DEST_ID}")
         risp = os.system(f"mkdir {SHUTTLE_FOLDER}/esame_RO-{DATE}_{DEST_ANCHOR}_{DEST_ID}")
