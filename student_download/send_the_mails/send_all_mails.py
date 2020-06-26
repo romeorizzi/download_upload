@@ -5,7 +5,7 @@ from shutil import copyfile
 import csv
 
 CSV_FILE_WITH_STUDENTS = "../lista_studenti_iscritti_con_chiavi.csv"
-SHUTTLE_FOLDER = "../shuttle/"
+SHUTTLE_FOLDER = "../shuttle"
 
 # script che invia tutte le mail (prevedendo le te modalità "SUDO","ME","SAY").
 # Ogni studente riceverà la mail con l'ancora e le credenziali per potersi scaricare il suo testo di esame.
@@ -28,22 +28,27 @@ if not os.path.exists(CSV_FILE_WITH_STUDENTS):
     exit(1)
 
 if not os.path.exists(SHUTTLE_FOLDER):    
-    print(f"ERROR: the directory ../shuttle/ does not exist. Create and fill it up properly and start me again.")
+    print(f"ERROR: the SHUTTLE_FOLDER directory {SHUTTLE_FOLDER} does not exist. Create and fill it up properly and start me again.")
     exit(1)
 lista_cartelle = os.listdir(SHUTTLE_FOLDER)
-if len(lista_cartelle) == 0:
-    print(f"ERROR: the directory ../shuttle/ is empty. Fill it up properly and start me again.")
-    exit(1)
-    
-DATE = lista_cartelle[0][9:19]
-print(f"Shuttle del {DATE} accende i motori per la partenza. Ultimi controlli in corso ...")
+#print(f"lista_cartelle={lista_cartelle}")
 
+found_folder_with_long_name = False
 for name in lista_cartelle:
-   if os.path.isdir(name):
-      if len(name)>20:
-         if name[9:19] != DATE:
-            print(f"Errore: non tutti i floder in {SHUTTLE_FOLDER} si riferiscono alla data {DATE}. Controlla e, dopo aver ripulito, start me again.")
-            exit(1)
+   if os.path.isdir(SHUTTLE_FOLDER+'/'+name):
+      if len(name)>29:
+         print(f"Considering the subdirectory {name} of the shuttle.") 
+         if found_folder_with_long_name:
+             if name[9:19] != DATE:
+                 print(f"Errore: non tutti i floder in {SHUTTLE_FOLDER} si riferiscono alla data {DATE}. Controlla e, dopo aver ripulito, start me again.")
+                 exit(1)
+         else:
+             found_folder_with_long_name = True
+             DATE = name[9:19]
+             print(f"Shuttle del {DATE} accende i motori per la partenza. Ultimi controlli in corso ...")
+if not found_folder_with_long_name: 
+    print(f"ERROR: the SHUTTLE_FOLDER directory {SHUTTLE_FOLDER} does not contain any folder whose name is sufficiently long (at least 30 characters) that we consider it the folder of an assignment to a student. Fill up the shuttle properly and start me again.")
+    exit(1)
     
 with open(f"{CSV_FILE_WITH_STUDENTS}") as input_file:
     for row in list(csv.reader(input_file)):
@@ -58,4 +63,4 @@ with open(f"{CSV_FILE_WITH_STUDENTS}") as input_file:
         # POTREBBE ESSERE OPPORTUNO PREVEDERE QUI' UN CHECK CHE LA CARTELLA CORRISPONDENTE ESISTA IN lista_cartelle  PRIMA DI PROVARE AD INVIARE LA MAIL. 
 
         print(f"procedo ad inviare la mail allo studente {DEST_STUDENT_CODE} {DEST_ID} {DEST_NAME} {DEST_SURNAME}:")
-        risp = os.system(f"./send_one_mail.py SAY {DEST_STUDENT_CODE} {DATE}")
+        risp = os.system(f"./send_one_mail.py {argv[1]} {DEST_STUDENT_CODE} {DATE}")
