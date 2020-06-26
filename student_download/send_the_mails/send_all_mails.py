@@ -15,7 +15,7 @@ SHUTTLE_FOLDER = "../shuttle/"
 
 
 def usage(onstream):
-    print(f"\nSono lo script che invia tutte le mail agli studenti per dare avvio all'esame.\n\nUsage: os.path.basename(argv[0])  {SUDO | ME | SAY }\n\n   where the three alternative options are:\n   * SUDO: really act! Send all the mails to the person.\n   * ME: send all the mails but just to myself. In this way, I can have a look at a few mails before sending a ton of them.\n   * SAY: only tell the action in the gun but do not really take it.", file=onstream)
+    print(f"\nSono lo script che invia tutte le mail agli studenti per dare avvio all'esame.\n\nUsage: os.path.basename(argv[0])  {{ SUDO | ME | SAY }}\n\n   where the three alternative options are:\n   * SUDO: really act! Send all the mails to the person.\n   * ME: send all the mails but just to myself. In this way, I can have a look at a few mails before sending a ton of them.\n   * SAY: only tell the action in the gun but do not really take it.", file=onstream)
 
 # THE MAIN PROGRAM:
 if len(argv) != 2 or argv[1] not in {"SUDO","ME","SAY"}:
@@ -39,9 +39,11 @@ DATE = lista_cartelle[0][9:19]
 print(f"Shuttle del {DATE} accende i motori per la partenza. Ultimi controlli in corso ...")
 
 for name in lista_cartelle:
-    if name[9:19] != DATE:
-        print(f"Errore: non tutti i floder in {SHUTTLE_FOLDER} si riferiscono alla data {DATE}. Controlla e, dopo aver ripulito, start me again.")
-        exit(1)
+   if os.path.isdir(name):
+      if len(name)>20:
+         if name[9:19] != DATE:
+            print(f"Errore: non tutti i floder in {SHUTTLE_FOLDER} si riferiscono alla data {DATE}. Controlla e, dopo aver ripulito, start me again.")
+            exit(1)
     
 with open(f"{CSV_FILE_WITH_STUDENTS}") as input_file:
     for row in list(csv.reader(input_file)):
