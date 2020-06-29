@@ -10,8 +10,8 @@
 *.csv
 *.docx
 
-# sudent downloads
-student_download/shuttle/esame_**
+# the whole shuttle (containing the materials for the sudent's downloads)
+student_download/shuttle/**
 
 # backups
 *~
