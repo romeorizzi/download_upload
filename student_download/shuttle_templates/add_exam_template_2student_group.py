@@ -6,8 +6,9 @@ import csv
 import re
 
 CSV_FILE_WITH_STUDENTS_GROUP = "../lista_studenti_iscritti_con_chiavi.csv"
-SHUTTLE_FOLDER = "."
-GEN_EXAM_VERSION = "template_testo_esame_dummy"
+SHUTTLE_FOLDER = "../shuttle"
+SHUTTLE_TEMPLATES_FOLDER = "../shuttle_templates"
+GEN_EXAM_VERSION = "../shuttle_templates/template_testo_esame_dummy"
 
 
 # script che, per ogni studente che appaia nel file CSV_FILE_WITH_STUDENTS_GROUP genera un testo di tema dummy dal template e lo pone in shuttle.
@@ -51,7 +52,8 @@ if not os.path.exists(CSV_FILE_WITH_STUDENTS_GROUP):
     print(f"Questo script ({argv[0]}) opera a partire dal file CSV_FILE_WITH_STUDENTS_GROUP che contiene i dati degli studenti necessari all'invio delle mail che forniscano loro i punti di accesso e le credenziali personali.\n\nESECUZIONE INTERROTTA: File CSV_FILE_WITH_STUDENTS_GROUP={CSV_FILE_WITH_STUDENTS_GROUP} non trovato.", file=stderr)
     exit(1)
     
-    
+risp = os.system(f"cd {SHUTTLE_FOLDER}") # per prima cosa ci portiamo dentro lo shuttle in allestimento
+risp = os.system(f"cp {SHUTTLE_TEMPLATES_FOLDER}/.htaccess {SHUTTLE_FOLDER}/") # quindi si oscura il listing della cartelle per il dopo atterraggio dello shuttle
 with open(f"{CSV_FILE_WITH_STUDENTS_GROUP}") as input_file:
     for row in list(csv.reader(input_file)):
         DEST_STUDENT_CODE = row[1]

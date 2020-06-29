@@ -10,6 +10,7 @@ from passlib.apache import HtpasswdFile
 
 CSV_FILE_WITH_STUDENTS = "lista_studenti_iscritti_con_chiavi.csv"
 SHUTTLE_FOLDER = "shuttle"
+SHUTTLE_TEMPLATES_FOLDER = "shuttle_templates"
 ABSOLUTE_PATH_TO_HTPASSWD_ON_WEB_SERVER = "/home/accounts/personale/rzzrmo30/public_html/classes/RO/shuttle"
 FILE_PWD_ADMIN_ESAMI = "../../credenziali_per_scripts_in_repo_pubblici/pwd_admin_passwd_esami_download.yaml"
 
@@ -81,7 +82,8 @@ for key in csv_dict:
     os.mkdir(f"{SHUTTLE_FOLDER}/esameRO-{DATE}_{csv_dict[key]['anchor']}_{key}/")
 """
 
-#create .htaccess and .htpasswd (user:matricola)
+risp = os.system(f"cp {SHUTTLE_TEMPLATES_FOLDER}/.htaccess {SHUTTLE_FOLDER}/") # come prima cosa ci assicuriamo di oscurare il listing della cartelle per il dopo atterraggio dello shuttle
+#create .htaccess and .htpasswd (user:matricola) for every subfolder
 def create_ht(key,folder,htaccess,csv_dict):
     user_htaccess = htaccess.replace('auth_name','"'+csv_dict[key]['matricola']+'"').replace('psw_path',ABSOLUTE_PATH_TO_HTPASSWD_ON_WEB_SERVER+'/'+folder+'/.htpasswd')
     ht = HtpasswdFile(SHUTTLE_FOLDER+'/'+folder+'/.htpasswd', new=True)
