@@ -81,16 +81,7 @@ with open(f"{CSV_FILE_WITH_STUDENTS}", "r") as csv_file:
 for key in csv_dict:
     os.mkdir(f"{SHUTTLE_FOLDER}/esameRO-{DATE}_{csv_dict[key]['anchor']}_{key}/")
 """
-README = """Questa cartella è lo shuttle che da quì verrà clonato identico sul Web Server da dove i suoi subfolder saranno accessibili agli studenti con le credenziali di accesso per quel subfolder. L'idea è che il folder shuttle abbia una sottocartella er ogni fila del testo d'esame, dove le file (=versioni diverse del testo) possono essere fino ad una per ogni studente (più altri utenti di prova).
-Il nome di ciascuna sottocartella contiene una lunga stringa casuale detta ancora, chi non conosce l'ancora non potrà accedere alla sottocartella.
-La cartella folder deve pertento contenere il file .htaccess che serve per oscurare tutte le sue sottocartelle, così che esse non siano accessibili se non da chi ne conosce le ancore. Ogni studente potrà accedere solo alla sua fila (o comunque all'insieme di cartelle deciso da noi). 
-Il file .htaccess è in tutto caratterizzato da:
-shuttle$ cat .htaccess 
-Options -Indexes
-shuttle$ ls -l  .htaccess 
--rw-r--r--  .htaccess
-"""
-risp = os.system(f"cat {README} {SHUTTLE_FOLDER}/README.txt")
+risp = os.system(f"cp {SHUTTLE_TEMPLATES_FOLDER}/README.txt {SHUTTLE_FOLDER}/")
 risp = os.system(f"cp {SHUTTLE_TEMPLATES_FOLDER}/.htaccess {SHUTTLE_FOLDER}/") # come prima cosa ci assicuriamo di oscurare il listing della cartelle per il dopo atterraggio dello shuttle
 #create .htaccess and .htpasswd (user:matricola) for every subfolder
 def create_ht(key,folder,htaccess,csv_dict):
@@ -102,7 +93,7 @@ def create_ht(key,folder,htaccess,csv_dict):
     with open(SHUTTLE_FOLDER+'/'+folder+'/.htaccess','w') as f:
         f.write(user_htaccess)
 
-folders = os.listdir(SHUTTLE_FOLDER)        
+folders = os.listdir(SHUTTLE_FOLDER)
 for name in folders:
    if os.path.isdir(SHUTTLE_FOLDER+'/'+name):
       if len(name)>29:
