@@ -1,5 +1,5 @@
-#!/usr/bin/python3
-# quando avevo problemi con le troppe installazioni di python, questo script lo laciavo da terminale con python3. Ora ho installasto passlib su conda e posso così trattarlo come uno script.
+# a causa di problemi con le troppe installazioni di python, questo script lo lacio da terminale con python3. In questo modo trova il modulo passlib che ho installato sia con conda che con pip3 ma che non viene trovato se utilizzo la seguente she-bang:
+# #!/usr/bin/python3
 
 from sys import argv, exit, stderr
 import os
