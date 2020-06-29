@@ -1,4 +1,6 @@
 #!/usr/bin/python3
+# quando avevo problemi con le troppe installazioni di python, questo script lo laciavo da terminale con python3. Ora ho installasto passlib su conda e posso così trattarlo come uno script.
+
 from sys import argv, exit, stderr
 import os
 import csv
@@ -8,6 +10,9 @@ from passlib.apache import HtpasswdFile
 
 CSV_FILE_WITH_STUDENTS = "lista_studenti_iscritti_con_chiavi.csv"
 SHUTTLE_FOLDER = "shuttle"
+ABSOLUTE_PATH_TO_HTPASSWD_ON_WEB_SERVER = "/home/accounts/personale/rzzrmo30/public_html/classes/RO/shuttle"
+FILE_PWD_ADMIN_ESAMI = "../../credenziali_per_scripts_in_repo_pubblici/pwd_admin_passwd_esami_download.yaml"
+
 
 def usage(onstream):
     print(f"\nUsage: ./{os.path.basename(argv[0])}  yyyy-mm-dd  [ shuttle_folder [ csv_students_file [ {{ md5 | clear }} ] ] ]\n\n   The first parameter is the date of the exam.\n   I tre parametri opzionali che vanno semmai precisati nell'ordine sono:\n   shuttle_folder (default {SHUTTLE_FOLDER}) che specifica il percorso della cartella shuttle\n   csv_students_file (default {CSV_FILE_WITH_STUDENTS}) che specifica il percorso del csv file con le credenziali degli studenti\n   the third optional parameter is either literally 'md5' when present) se si vuole l'encryption di tipo md5 oppure 'clear' se si vuole che le credenziali siano gestite in chiaro da htpasswd.\n\nSi presume che in shuttle ci siano gi le cartelle degli studenti cos nominate '22-06-30_anchor_matricola'.\nLo script va a creare in ogni cartella i due file .htaccess e .htpasswd (user  la matricola, la password  quella del csv file).", file=onstream)
@@ -23,6 +28,15 @@ if len(argv) == 1:
     usage(stderr)
     exit(1)
 
+if not os.path.exists(FILE_PWD_ADMIN_ESAMI):
+    print(f"Questo script ({argv[0]}) opera a partire dal file {FILE_PWD_ADMIN_ESAMI}. Tale file contiene le credenziali di accesso htpasswd riservate ai supervisori di un esame ed è pertanto stato disposto esternamente alla repo git pubblica.\nQuesto file contiene esclusivamente una stringa cheè la password di tali amministratori scritta in chiaro.\n\nESECUZIONE INTERROTTA: File {FILE_PWD_ADMIN_ESAMI} con le credenziali di accesso al server di posta non trovato.", file=stderr)
+    exit(1)
+
+with open(FILE_PWD_ADMIN_ESAMI,"r") as f:
+    pwd_admin = f.read().strip().replace("\n", "")
+    #print(f"pwd_admin = {pwd_admin}")
+
+    
 DATE=argv[1]
 pattern = re.compile("^[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]$")
 if not pattern.match(DATE):
@@ -40,7 +54,6 @@ if len(argv) == 5 and argv[4] != "md5" and argv[4] != "clear":
     exit(1)
 
 
-filenames= os.listdir(SHUTTLE_FOLDER) #get all files' and folders' names in the indicated directory
 csv_dict = {}
 
 htaccess = """AuthName auth_name
@@ -69,20 +82,23 @@ for key in csv_dict:
 """
 
 #create .htaccess and .htpasswd (user:matricola)
-def create_ht(key,filename,htaccess,csv_dict):
-    user_htaccess = htaccess.replace('auth_name','"'+csv_dict[key]['matricola']+'"').replace('psw_path',SHUTTLE_FOLDER+'/'+filename+'/.htpasswd')
-    ht = HtpasswdFile(SHUTTLE_FOLDER+'/'+filename+'/.htpasswd', new=True)
+def create_ht(key,folder,htaccess,csv_dict):
+    user_htaccess = htaccess.replace('auth_name','"'+csv_dict[key]['matricola']+'"').replace('psw_path',ABSOLUTE_PATH_TO_HTPASSWD_ON_WEB_SERVER+'/'+folder+'/.htpasswd')
+    ht = HtpasswdFile(SHUTTLE_FOLDER+'/'+folder+'/.htpasswd', new=True)
     ht.set_password(csv_dict[key]['matricola'],csv_dict[key]['psw'])
-    ht.set_password("rizzi_admin","rizzi_admin")
+    ht.set_password("admin",pwd_admin)
     ht.save()
-    with open(SHUTTLE_FOLDER+'/'+filename+'/.htaccess','w') as f:
+    with open(SHUTTLE_FOLDER+'/'+folder+'/.htaccess','w') as f:
         f.write(user_htaccess)
-		
-#get all dir in shuttle			
-for filename in filenames: # loop through all  folders
-    if os.path.isdir(os.path.join(os.path.abspath(SHUTTLE_FOLDER), filename)): # check whether the current object is a folder or not
-        key = filename[-8:]
-        create_ht(key,filename,htaccess,csv_dict)
 
+folders = os.listdir(SHUTTLE_FOLDER)        
+for name in folders:
+   if os.path.isdir(SHUTTLE_FOLDER+'/'+name):
+      if len(name)>29:
+         if name[9:19] == DATE:
+             print(f"Adding .htaccess file to folder {name} of the shuttle.") 
+             key = name[-8:]
+             create_ht(key,name,htaccess,csv_dict)
 
+        
 		

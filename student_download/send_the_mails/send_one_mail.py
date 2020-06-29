@@ -11,7 +11,7 @@ import yaml
 import csv
 import re
 
-CONFIG_MAIL_SERVER_FILE = "../../../send_mail_config.json"
+CONFIG_MAIL_SERVER_FILE = "../../../credenziali_per_scripts_in_repo_pubblici/send_mail_config.yaml"
 CSV_FILE_WITH_STUDENTS = "../lista_studenti_iscritti_con_chiavi.csv"
 
 MYADDRESS = "romeo.rizzi@univr.it"
@@ -82,7 +82,7 @@ with open(f"{CSV_FILE_WITH_STUDENTS}") as csv_file:
               print("However, you called me with the SAY option. Therefore, no true action has been undertaken.")
               exit(0)
           if argv[1] == "ME":
-              DEST_MAIL_ADDRESS=[MYADDRESS]
+              DEST_MAIL_ADDRESS=MYADDRESS
               CCLIST = CCLIST_FOR_ME_EXPERIMENTS
               BCCLIST = []
               print(f"However, you called me with the ME option. Therefore, that mail has actually been sent to you ({MYADDRESS}) so that you can have a look at it before proceeding in the sconsiderate act of sending tons of these mails.")
@@ -100,8 +100,7 @@ if not os.path.exists(CONFIG_MAIL_SERVER_FILE):
     print(f"Questo script ({argv[0]}) opera a partire dal file {CONFIG_MAIL_SERVER_FILE}. Tale file contiene le credenziali di accesso al server mail ed è pertanto stato disposto esternamente alla repo git pubblica.\nTrovi un file d'esempio entro il quale puoi riporre le tue credenziali per il tuo mail server nella cartella del presente script. Dopo averne riempito i campi richiesti collocalo dove credi opportuno ed aggiusta di conseguenza la variabile CONFIG_MAIL_SERVER_FILE che compare all'inizio del presente script.\n\nESECUZIONE INTERROTTA: File {CONFIG_MAIL_SERVER_FILE} con le credenziali di accesso al server di posta non trovato.", file=stderr)
     exit(1)
 
-with open(CONFIG_MAIL_SERVER_FILE) as f:
-    
+with open(CONFIG_MAIL_SERVER_FILE,"r") as f:  
     data = yaml.load(f, Loader=yaml.SafeLoader)
     # Note: using 'FullLoader' would be nicer and if you get the error "AttributeError: module 'yaml' has no attribute 'FullLoader'" then do as follows:
     # If you are managing packages with pip, you can upgrade to the current release by running:
