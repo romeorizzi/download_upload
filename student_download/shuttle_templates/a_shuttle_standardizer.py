@@ -54,6 +54,7 @@ def clean_name(first_name_of_a_person):
     
 risp = os.system(f"cd {SHUTTLE_FOLDER}") # per prima cosa ci portiamo dentro lo shuttle in allestimento
 risp = os.system(f"cp {SHUTTLE_TEMPLATES_FOLDER}/.htaccess {SHUTTLE_FOLDER}/") # quindi si oscura il listing della cartelle per il dopo atterraggio dello shuttle
+risp = os.system(f"cp {SHUTTLE_TEMPLATES_FOLDER}/README.txt {SHUTTLE_FOLDER}/")
 with open(f"{CSV_FILE_WITH_STUDENTS}") as input_file:
     for row in list(csv.reader(input_file)):
         DEST_STUDENT_CODE = row[1]
