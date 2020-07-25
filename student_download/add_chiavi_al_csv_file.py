@@ -53,7 +53,7 @@ if len(argv) > 2:
 if len(argv) > 3:
     PWD_SUFFIX = argv[3]
 
-def PWD_prefix(MATRICOLA,SURNAME,NAME,YEAR,MAILADR_ID):
+def PWD_prefix(MATRICOLA,SURNAME,NAME,YEAR,ID_STUDENT):
     if PWD_PREFIX == "MATRICOLA":
         return MATRICOLA
     elif PWD_PREFIX == "NAME":
@@ -63,7 +63,7 @@ def PWD_prefix(MATRICOLA,SURNAME,NAME,YEAR,MAILADR_ID):
     else:
         return PWD_PREFIX  
 
-def PWD_suffix(MATRICOLA,SURNAME,NAME,YEAR,MAILADR_ID):
+def PWD_suffix(MATRICOLA,SURNAME,NAME,YEAR,ID_STUDENT):
     if PWD_SUFFIX == "MATRICOLA":
         return MATRICOLA
     elif PWD_SUFFIX == "NAME":
@@ -102,20 +102,20 @@ with open(INPUT_FILE,"r") as fin:
        NAME = re.sub('["]', '', NAME).translate(trantab)
        YEAR = re.sub('["]', '', YEAR).translate(trantab)
        MAILADR_ID = re.sub('["]', '', MAILADR_ID).translate(trantab)
-       MAILADR_MAT = MATRICOLA + "@studenti.univr.it"
-       #print(f"MATRICOLA={MATRICOLA}, SURNAME={SURNAME}, NAME={NAME}, YEAR={YEAR}, MAILADR_ID={MAILADR_ID}, MAILADR_MAT={MAILADR_MAT}")
+       ID_STUDENT=MAILADR_ID[0:8]
+       #print(f"MATRICOLA={MATRICOLA}, SURNAME={SURNAME}, NAME={NAME}, YEAR={YEAR}, ID_STUDENT={ID_STUDENT}")
        palette = string.ascii_letters + string.digits
        if numeric_pwd:
            palette = string.digits
-       PASSWORD = PWD_prefix(MATRICOLA,SURNAME,NAME,YEAR,MAILADR_ID) + \
+       PASSWORD = PWD_prefix(MATRICOLA,SURNAME,NAME,YEAR,ID_STUDENT) + \
                   ''.join([random.choice(palette) for n in range(length_pwd)]) + \
-                  PWD_suffix(MATRICOLA,SURNAME,NAME,YEAR,MAILADR_ID)
+                  PWD_suffix(MATRICOLA,SURNAME,NAME,YEAR,ID_STUDENT)
        # USERNAME = MATRICOLA
        if length_anchor < 0:
-           fout.write(MAILADR_MAT + "," + MATRICOLA + "," + YEAR + "," + PASSWORD + "," + MAILADR_ID + "," + NAME + "," + SURNAME + "\n")
+           fout.write(MATRICOLA + "," + YEAR + "," + PASSWORD + "," + ID_STUDENT + "," + NAME + "," + SURNAME + "\n")
        else:
            ANCHOR = ''.join([random.choice(string.ascii_letters + string.digits) for n in range(length_anchor)])
-           fout.write(MAILADR_MAT + "," + MATRICOLA + "," + YEAR + "," + ANCHOR + "," + PASSWORD + "," + MAILADR_ID + "," + NAME + "," + SURNAME + "\n")
+           fout.write(MATRICOLA + "," + YEAR + "," + ANCHOR + "," + PASSWORD + "," + ID_STUDENT + "," + NAME + "," + SURNAME + "\n")
            
            
 print(f"Fatto! Il file {OUTPUT_FILE} è stato costruito e contiene {i} records (l'ultimo è lo studente fake MY TEST).")
@@ -124,16 +124,15 @@ print(f"Fatto! Il file {OUTPUT_FILE} è stato costruito e contiene {i} records (
 
 Il singolo record (riga, dato studente) viene droppato sul file .csv in formazione col comando:
 
-fout.write(MAILADR_MAT + "," + MATRICOLA + "," + YEAR + "," + ANCHOR + "," + PASSWORD + "," + MAILADR_ID + "," + NAME + "," + SURNAME + "\n")
+fout.write(MATRICOLA + "," + YEAR + "," + ANCHOR + "," + PASSWORD + "," + ID_STUDENT + "," + NAME + "," + SURNAME + "\n")
 
 dove:
 
-MAILADR_MAT è l'indirizzo di mail basato sulla matricola (generato automaticamente partendo dall'informazione della matricola)
 MATRICOLA è la matricola, che a UniVR è nella forma VR??????
 YEAR è l'anno accademico in cui spettava (e tipicamente è avvenuta) la frequenza al corso
 ANCHOR è una stringa di 15 caratteri (lettere maiuscole e minuscole + cifre) generata casualmente. La uso ad esempio per il nome della cartella da cui potranno fare il download del loro compito, ma possiamo usalra anche per altri usi. Nel generarla non ho utilizzato alcuna informazione specifica (come la matricola oppure la data dell'appello). Inoltre: non è intesa per essere riproducibie (lo script che genera il file vorrà essere di pubblico dominio).
 PASSWORD: un codice numerico di 6 cifre
-MAILADR_ID: è l'indirizzo di mail basato sull'id studente (a volte all'esame ti arrivano con delle tessere su cui è scritto solo quello, inoltre questo id mantiene validità quando passano dalla triennale alla magistrale mentre la matricola cambia). Il formato dell'id studente a UniVR è id???xxx dove ??? sono 3 cifre e xxx o sono o tutte e tre cifre o tutte e tre lettere minuscole.
+ID_STUDENT: è l'id studente (a volte all'esame ti arrivano con delle tessere su cui è scritto solo quello, inoltre questo id mantiene validità quando passano dalla triennale alla magistrale mentre la matricola cambia). Il formato dell'id studente a UniVR è id???xxx dove ??? sono 3 cifre e xxx o sono o tutte e tre cifre o tutte e tre lettere minuscole.
 NAME è il nome dello studente
 SURNAME è il cognome dello studente
 """

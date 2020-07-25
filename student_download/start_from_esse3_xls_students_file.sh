@@ -1,15 +1,16 @@
 #!/bin/bash
 set -e
 echo
-echo "Sono lo script che crea automaticamente, secondo configurazioni standard, i seguenti file:"
+echo "Sono lo script che crea automaticamente, secondo configurazioni standard per l'esame di Ricerca Operativa, i seguenti file:"
 echo "   1. lista_studenti_iscritti.csv"
 echo "   2. lista_studenti_iscritti_con_chiavi.csv"
 echo " partento dal file ListaStudentiEsameExportExcel.xls degli studenti iscritti all'appello scaricato da esse3."
 echo
-echo "ATTENZIONE: ricordati di non modificare questi file dopo che hai cominciato ad utilizzarli per non creare inconsistenze tra le varie cose che genererai partendo da essi. Se li modifici riparti da capo dall'esecuzione del presente script."
+echo "ATTENZIONE: ricordati di non modificare questi file dopo che hai cominciato ad utilizzarli per non creare inconsistenze tra le varie cose che generi partendo da essi. Se li modifici riparti da capo, dall'esecuzione del presente script."
 echo
 echo "Creating the file: lista_studenti_iscritti.csv"
 xls2csv ListaStudentiEsameExportExcel.xls | cut -d, -f3,4,5,6,13 | sort | grep "^\"VR" > lista_studenti_iscritti.csv
+sed -i 's/@studenti.univr.it//g' lista_studenti_iscritti.csv 
 echo "Fatto! The file lista_studenti_iscritti.csv has been created."
 echo
 echo "Creating the file: lista_studenti_iscritti_con_chiavi.csv"

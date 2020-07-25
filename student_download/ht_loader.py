@@ -20,7 +20,7 @@ def usage(onstream):
  
 # THE MAIN PROGRAM:
 if len(argv) > 5:
-    print(f"You gave this script {len(argv)-1} parameters. Expecting at most 4 (all optionals).")
+    print(f"You gave this script {len(argv)-1} parameters. Expecting at most 4 (and at least one, three are optional).")
     usage(stderr)
     exit(1)
 
