@@ -52,13 +52,13 @@ if not found_folder_with_long_name:
     
 with open(f"{CSV_FILE_WITH_STUDENTS}") as input_file:
     for row in list(csv.reader(input_file)):
-        DEST_STUDENT_CODE = row[1]
-        DEST_ANCHOR = row[3]
-        DEST_PWD = row[4]
-        DEST_MAIL_ADDRESS = row[5]
-        DEST_ID = DEST_MAIL_ADDRESS.split("@")[0]
-        DEST_NAME = row[6]
-        DEST_SURNAME = row[7]
+        DEST_STUDENT_CODE = row[0]
+        DEST_MAIL_ADDRESS = row[0]+"@studenti.univr.it"
+        DEST_ANCHOR = row[2]
+        DEST_PWD = row[3]
+        DEST_ID = row[4]
+        DEST_NAME = row[5]
+        DEST_SURNAME = row[6]
 
         # POTREBBE ESSERE OPPORTUNO PREVEDERE QUI' UN CHECK CHE LA CARTELLA CORRISPONDENTE ESISTA IN lista_cartelle  PRIMA DI PROVARE AD INVIARE LA MAIL. 
 

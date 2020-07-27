@@ -58,16 +58,16 @@ if not os.path.exists(CSV_FILE_WITH_STUDENTS):
 with open(f"{CSV_FILE_WITH_STUDENTS}") as csv_file:
     found = False
     for row in list(csv.reader(csv_file)):
-       if found and row[1]==DEST_STUDENT_CODE:
+       if found and row[0]==DEST_STUDENT_CODE:
           print(f"WARNING: the student with code ={DEST_STUDENT_CODE} occurs twice in your file {CSV_FILE_WITH_STUDENTS}\nIn these case we take take the first occurrence as the good one.",file=stderr)
-       if not found and row[1]==DEST_STUDENT_CODE:
+       if not found and row[0]==DEST_STUDENT_CODE:
           found=True
-          DEST_ANCHOR = row[3]
-          DEST_PWD = row[4]
-          DEST_MAIL_ADDRESS = row[5]
-          DEST_ID = DEST_MAIL_ADDRESS.split("@")[0]
-          DEST_NAME = row[6]
-          DEST_SURNAME = row[7]
+          DEST_MAIL_ADDRESS = row[0]+"@studenti.univr.it"
+          DEST_ANCHOR = row[2]
+          DEST_PWD = row[3]
+          DEST_ID = row[4]
+          DEST_NAME = row[5]
+          DEST_SURNAME = row[6]
           
           if argv[1] != "SUDO":
               print("If you had called this script with the SUDO option, then I would be performing the following action:")
