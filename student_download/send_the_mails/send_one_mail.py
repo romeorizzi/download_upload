@@ -62,10 +62,10 @@ with open(f"{CSV_FILE_WITH_STUDENTS}") as csv_file:
           print(f"WARNING: the student with code ={DEST_STUDENT_CODE} occurs twice in your file {CSV_FILE_WITH_STUDENTS}\nIn these case we take take the first occurrence as the good one.",file=stderr)
        if not found and row[0]==DEST_STUDENT_CODE:
           found=True
-          DEST_MAIL_ADDRESS = row[0]+"@studenti.univr.it"
           DEST_ANCHOR = row[2]
           DEST_PWD = row[3]
           DEST_ID = row[4]
+          DEST_MAIL_ADDRESS = DEST_ID+"@studenti.univr.it"
           DEST_NAME = row[5]
           DEST_SURNAME = row[6]
           

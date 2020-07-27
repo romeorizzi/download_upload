@@ -58,10 +58,10 @@ risp = os.system(f"cp {SHUTTLE_TEMPLATES_FOLDER}/README.txt {SHUTTLE_FOLDER}/")
 with open(f"{CSV_FILE_WITH_STUDENTS}") as input_file:
     for row in list(csv.reader(input_file)):
         DEST_STUDENT_CODE = row[0]
-        DEST_MAIL_ADDRESS = row[0]+"@studenti.univr.it"
         DEST_ANCHOR = row[2]
         DEST_PWD = row[3]
         DEST_ID = row[4]
+        DEST_MAIL_ADDRESS = DEST_ID+"@studenti.univr.it"
         DEST_NAME = row[5]
         DEST_SURNAME = row[6]
 
