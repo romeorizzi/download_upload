@@ -33,11 +33,13 @@ if not os.path.exists(SHUTTLE_FOLDER):
 lista_cartelle = os.listdir(SHUTTLE_FOLDER)
 #print(f"lista_cartelle={lista_cartelle}")
 
+list_IDs = []
 found_folder_with_long_name = False
 for name in lista_cartelle:
    if os.path.isdir(SHUTTLE_FOLDER+'/'+name):
       if len(name)>29:
-         print(f"Considering the subdirectory {name} of the shuttle.") 
+         print(f"Considering the subdirectory {name} of the shuttle.")
+         list_IDs.append(name[-8:])
          if found_folder_with_long_name:
              if name[9:19] != DATE:
                  print(f"Errore: non tutti i floder in {SHUTTLE_FOLDER} si riferiscono alla data {DATE}. Controlla e, dopo aver ripulito, start me again.")
@@ -47,9 +49,10 @@ for name in lista_cartelle:
              DATE = name[9:19]
              print(f"Shuttle del {DATE} accende i motori per la partenza. Ultimi controlli in corso ...")
 if not found_folder_with_long_name: 
-    print(f"ERROR: the SHUTTLE_FOLDER directory {SHUTTLE_FOLDER} does not contain any folder whose name is sufficiently long (at least 30 characters) that we consider it the folder of an assignment to a student. Fill up the shuttle properly and start me again.")
+    print(f"\nERROR: the SHUTTLE_FOLDER directory {SHUTTLE_FOLDER} does not contain any folder whose name is sufficiently long (at least 30 characters) that we consider it the folder of an assignment to a student. Fill up the shuttle properly and start me again.")
     exit(1)
-    
+
+dict_mittenti = {}
 with open(f"{CSV_FILE_WITH_STUDENTS}") as input_file:
     for row in list(csv.reader(input_file)):
         DEST_STUDENT_CODE = row[0]
@@ -59,8 +62,41 @@ with open(f"{CSV_FILE_WITH_STUDENTS}") as input_file:
         DEST_MAIL_ADDRESS = DEST_ID+"@studenti.univr.it"
         DEST_NAME = row[5]
         DEST_SURNAME = row[6]
+        if DEST_ID in dict_mittenti:
+            print(f"\nERROR: the ID_student {DEST_ID} occurs twice (into two different rows) of the file {CSV_FILE_WITH_STUDENTS}.\n Here is the whole data of the second occurrence:\n   matricola: {DEST_STUDENT_CODE},\n   name: {DEST_NAME},\n   name: {DEST_SURNAME},\n   ID: {DEST_ID},\n   ancora: {DEST_ANCHOR}")
+            exit(1)
+        if DEST_ID not in list_IDs:
+            print(f"\nERROR: no folder is present in the shuttle for the ID_student {DEST_ID}\n Here is the whole data of the student:\n   matricola: {DEST_STUDENT_CODE},\n   name: {DEST_NAME},\n   name: {DEST_SURNAME},\n   ID: {DEST_ID},\n   ancora: {DEST_ANCHOR}")
+            print(f"I folder presenti sono relativi agli IDs list_IDs={list_IDs}")
+            exit(1)
+        dict_mittenti[DEST_ID] = "with folder ready"
 
-        # POTREBBE ESSERE OPPORTUNO PREVEDERE QUI' UN CHECK CHE LA CARTELLA CORRISPONDENTE ESISTA IN lista_cartelle  PRIMA DI PROVARE AD INVIARE LA MAIL. 
-
+print("Ultimo controllo: per ogni folder in shuttle abbiamo il mittente")
+assert len(dict_mittenti) <= len(list_IDs)        
+if len(dict_mittenti) < len(list_IDs):
+    print(f"\nWARNING: nello shuttle sono presenti delle cartelle per le quali non troviamo i dati del destinatario nel file {CSV_FILE_WITH_STUDENTS}\nGli ID-students di queste cartelle sono:")
+    num_missing = 0
+    for dest in list_IDs:
+        if dest not in dict_mittenti:
+            num_missing += 1
+            print(f"   {num_missing}. {dest}")
+    print("Reputi di voler comunque proseguire con l'invio di tutte le altre mail? (s/S)")
+    risp = input()
+    if risp not in {"s","S"}:
+        exit(1)
+else:
+    print(f"Le cartelle in shuttle ed i destinatari nel file {CSV_FILE_WITH_STUDENTS} corrispondono.\nSiamo pronti per inviare le seguenti {len(list_IDs)} mails")
+mail_inviate = 0
+with open(f"{CSV_FILE_WITH_STUDENTS}") as input_file:
+    for row in list(csv.reader(input_file)):
+        DEST_STUDENT_CODE = row[0]
+        DEST_ANCHOR = row[2]
+        DEST_PWD = row[3]
+        DEST_ID = row[4]
+        DEST_MAIL_ADDRESS = DEST_ID+"@studenti.univr.it"
+        DEST_NAME = row[5]
+        DEST_SURNAME = row[6]
         print(f"procedo ad inviare la mail allo studente {DEST_STUDENT_CODE} {DEST_ID} {DEST_NAME} {DEST_SURNAME}:")
         risp = os.system(f"./send_one_mail.py {argv[1]} {DEST_STUDENT_CODE} {DATE}")
+        mail_inviate += 1
+print(f"Mail inviate: {mail_inviate}/{len(list_IDs)}/")
