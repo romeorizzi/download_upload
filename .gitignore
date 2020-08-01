@@ -6,6 +6,8 @@
 *.7z
 
 # instance specific files
+student_download/shuttle
+student_download/lista_studenti_iscritti_con_chiavi.csv
 *.xls
 *.csv
 *.docx

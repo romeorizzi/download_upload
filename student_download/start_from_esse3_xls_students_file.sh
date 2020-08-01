@@ -6,21 +6,35 @@ echo "   1. lista_studenti_iscritti.csv"
 echo "   2. lista_studenti_iscritti_con_chiavi.csv"
 echo " partento dal file ListaStudentiEsameExportExcel.xls degli studenti iscritti all'appello scaricato da esse3."
 echo
+echo Usage: $0 [DATA_APPELLO]
+echo " spiegazione: se il parametro opzionale DATA_APPELLO non è fornito allora il file ListaStudentiEsameExportExcel.xls viene cercato nella cartella corrente, altrimenti viene cercato nella cartella DATA_APPELLO"
+echo " anche i file prodotti vengono generati nella cartella DATA_APPELLO oppure in quella corrente se DATA_APPELLO non è specificata"
+echo
 echo "ATTENZIONE: ricordati di non modificare questi file dopo che hai cominciato ad utilizzarli per non creare inconsistenze tra le varie cose che generi partendo da essi. Se li modifici riparti da capo, dall'esecuzione del presente script."
 echo
-echo "Creating the file: lista_studenti_iscritti.csv"
-xls2csv ListaStudentiEsameExportExcel.xls | cut -d, -f3,4,5,6,13 | sort | grep "^\"VR" > lista_studenti_iscritti.csv
-sed -i 's/@studenti.univr.it//g' lista_studenti_iscritti.csv 
-echo "Fatto! The file lista_studenti_iscritti.csv has been created."
+if [ "$#" -gt 1 ]; then
+    exit 1
+fi
+STARTDIR=$(pwd)
+RELPATH=""
+if [ "$#" -gt 0 ]; then
+    RELPATH="$1/"
+fi
+echo "Creating the file: ${RELPATH}lista_studenti_iscritti_tmpversion.csv"
+xls2csv ${RELPATH}ListaStudentiEsameExportExcel.xls | cut -d, -f3,4,5,6,13 | sort | grep "^\"VR" > ${RELPATH}lista_studenti_iscritti_tmpversion.csv
+echo "Fatto! A first temporary copy of the file ${RELPATH}lista_studenti_iscritti.csv has been created."
 echo
-echo "Creating the file: lista_studenti_iscritti_con_chiavi.csv"
-./add_chiavi_al_csv_file.py -n 6 "" "" 15
-echo "Fatto! The file lista_studenti_iscritti_con_chiavi.csv has been created."
+echo "Creating the file: ${RELPATH}lista_studenti_iscritti_con_chiavi.csv"
+if [ "$#" -ne 0 ]; then
+    cd $RELPATH
+    ../add_chiavi_al_csv_file.py -n 6 "" "" 15
+    cd $STARTDIR
+else
+    ./add_chiavi_al_csv_file.py -n 6 "" "" 15
+fi
+echo "Fatto! The file ${RELPATH}lista_studenti_iscritti_con_chiavi.csv has been created."
+cut -d, -f1,2,5,6,7 ${RELPATH}lista_studenti_iscritti_con_chiavi.csv > ${RELPATH}lista_studenti_iscritti.csv
+echo "Fatto! The file ${RELPATH}lista_studenti_iscritti.csv has been created."
+echo "Removing the file: ${RELPATH}lista_studenti_iscritti_tmpversion.csv"
+rm ${RELPATH}lista_studenti_iscritti_tmpversion.csv
 echo
-echo "Trovi una ToDo list delle prossime cose da fare nel file passi_da_compiere_dopo_aver_generato_il_file_con_chiavi.md"
-echo -e "Le prossime cose che devi fare sono:" > passi_da_compiere_dopo_aver_generato_il_file_con_chiavi.md
-echo -e "   1. generare i vari testi dei temi per gli studenti, sfruttando il file lista_studenti_iscritti_con_chiavi.csv e collocarli, ciascuno in una sua cartella separata di nome esame_RO-yyyy-mm-dd_ANCORA_ID dentro la cartella shuttle.\n     Quì si assume che:\n        yyyy-mm-dd sia la data dell'appello\n        ANCORA sia la stringa nella colonna 4 del file lista_studenti_iscritti_con_chiavi.csv (esempio: NNCUPAJGiKV2Qsb)\n        ID sia l'id dello studente (esempio: id826yor)\n      Si assume inoltre che il testo del tema, collocato dentro la cartella di cui sopra, sia un archzio compresso in formato 7z e di nome esame_RO-yyyy-mm-dd_ID.7z" >> passi_da_compiere_dopo_aver_generato_il_file_con_chiavi.md
-echo -e "   2. lanciare lo script run_after_exam_texts_in_shuttle.sh per predisporre la cartella shuttle in modo che possa essere caricata sul Web Server per gli accessi degli studenti regolati da credenziali." >> passi_da_compiere_dopo_aver_generato_il_file_con_chiavi.md
-echo -e "   3. clonare la cartella shuttle sul Web Server agendo dalla cartella VPN_clone_shuttle. (Anche se caricati sul Web Server i temi non saranno ancora accessibili fino a quando non invierai le mail con le credenziali.)" >> passi_da_compiere_dopo_aver_generato_il_file_con_chiavi.md
-echo -e "   4. dare avvio all'esame inviando le mail con le credenziali di accesso. Puoi fare questo agendo dalla cartella send_the_mails utilizando gli script che trovi dentro di essa." >> passi_da_compiere_dopo_aver_generato_il_file_con_chiavi.md
-

@@ -67,13 +67,13 @@ Require valid-user
 with open(f"{CSV_FILE_WITH_STUDENTS}", "r") as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=',')
     for lines in csv_reader:
-        id=lines[5].split("@")[0]
+        id=lines[5]
         csv_dict.update({id:{'name':None,'surname':None,'psw':None,'anchor':None,'id_mail_address':None,'matricola':None}})
         csv_dict[id].update({'name':lines[6]})
         csv_dict[id].update({'surname':lines[7]})
         csv_dict[id].update({'psw':lines[4]})
         csv_dict[id].update({'anchor':lines[3]})
-        csv_dict[id].update({'id_mail_address':lines[5]})
+        csv_dict[id].update({'id_mail_address':id+"@studenti.univr.it"})
         csv_dict[id].update({'matricola':lines[1]})
 
 #uncomment to create all empty student dirs {SHUTTLE_FOLDER}/esameRO-{DATE}_anchor_matricola
