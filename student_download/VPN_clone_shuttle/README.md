@@ -1,10 +1,21 @@
-Per clonare lo shuttle sul Web Server (in questo caso su profs di uniVR) devi eseguire i 3 scripts nella presente directory nel seguente ordine (ed alimentarli dei dati richiesti mano a mano).
+Per clonare lo shuttle sul Web Server (in questo caso su profs di uniVR) devi eseguire 3 passi:
 
-./startVPN.sh
-./clone_shuttle.sh
-./stopVPN.sh
+1. se richiesto per accedere al server, attivare una VPN.
 
-Finito questo la cartella shuttle è stata clonata con tutti i temi, ma nessuno (tranne tè che hai tutte le credenziali) potrà ancora accedere ad essi fino a quando non avrai fatto avere le credenziali agli studenti.
+   A seconda della tua situazione, puoi predisporti degli scrip per automatizzare o semi-automatizzare questa operazione.
+   Ad esempio, quando ancora la VPN a VR seguiva standard parcchio suoi io mi ero fatto i segunti script (ora del tutto superati anche in termino di qualità del servizio):  
+
+   ./startVPN.sh   (per aprire la VPN)
+   ./stopVPN.sh   (per poi chiudere la VPN una volta terminato il cloning)
+
+2. lancio (cloning) della cartella shuttle:
+
+   Per fare questo lancia lo script:
+     ./clone_shuttle.sh
+
+   Al termine di questo script (progredirà lentamente perchè stà copiando file in remoto via ssh) la cartella shuttle è stata clonata con tutti i temi, ma nessuno (tranne tè che hai tutte le credenziali) potrà ancora accedere ad essi fino a quando non avrai fatto avere le credenziali agli studenti.
+
+3. chiudere la VPN
 
 ## Cancellare file e cartelle da remoto
 

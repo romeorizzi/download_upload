@@ -24,7 +24,7 @@ EXT_COMPRESSION = "zip"
 
 
 def usage(onstream):
-    print(f"\nUsage: ./{os.path.basename(argv[0])}  {{ SUDO | ME | SAY }} code_of_the_recipient_student yyyy-mm-dd\n\n   where the three alternative options are:\n   * SUDO: really act! Send the mail to the person.\n   * ME: send the mail but to myself. In this way I can have a look at a few mails before sending a ton of them.\n   * SAY: only tell the action in the gun but do not really take it.\n\n   In my case in UniVR the code of the student has the form VR??????\n   The last parameter is the date of the exam.", file=onstream)
+    print(f"\nUsage: ./{os.path.basename(argv[0])}  {{ SUDO | ME | SAY }} code_of_the_recipient_student (VR??????) data_esame (yyyy-mm-dd\n\n)   where the three alternative options are:\n   * SUDO: really act! Send the mail to the person.\n   * ME: send the mail but to myself. In this way I can have a look at a few mails before sending a ton of them.\n   * SAY: only tell the action in the gun but do not really take it.\n\n   In my case in UniVR the code of the student has the form VR??????\n   The third and last parameter is the date of the exam and has the form yyyy-mm-dd.", file=onstream)
 
 # student's code = matricola of the form VR?????? where each ? is a digit.
     
@@ -147,9 +147,19 @@ wget --user <VR??????> --password <vedi sopra> http://profs.sci.univr.it/~rrizzi
 
 In questo modo non solo scaricherai il testo d'esame direttamente dove vorrai lavorare al tuo elaborato ma potrai anche beneficiare di tutta la robustezza di wget in caso di connessione instabile.
 
+All'interno dell'archivio trovi un file README.txt che spiega come dare avvio all'esame.
+
 Buon Esame!
 
-P.S. In caso incontrassi difficoltà non mancare di segnalarcele subito e di chiedere aiuto scrivendoci una mail indirizzata sia a:
+P.S. In caso incontrassi difficoltà non mancare di segnalarcele subito chiedendo aiuto. 
+
+La stanza Zoom di riferimento è:
+https://univr.zoom.us/j/3518684000
+
+Il gruppo Telegram di riferimento è quello del corso:
+https://t.me/RicercaOperativa2020
+
+Puoi inoltre chiedere aiuto e/o far avere segnalazioni scrivendoci una mail indirizzata sia a:
 
  romeo.rizzi@univr.it
 
