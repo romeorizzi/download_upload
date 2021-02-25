@@ -4,10 +4,10 @@ echo
 echo "Sono lo script che crea automaticamente, secondo configurazioni standard per l'esame di Ricerca Operativa, i seguenti file:"
 echo "   1. lista_studenti_iscritti.csv"
 echo "   2. lista_studenti_iscritti_con_chiavi.csv"
-echo " partendo dal file ListaStudentiEsameExportExcel.xls degli studenti iscritti all'appello scaricato da Esse3."
+echo " partendo dal file ListaStudentiEsameExport.xls degli studenti iscritti all'appello scaricato da Esse3."
 echo
 echo Usage: $0 [DATA_APPELLO]
-echo " spiegazione: se il parametro opzionale DATA_APPELLO non è fornito, allora il file ListaStudentiEsameExportExcel.xls viene cercato nella cartella corrente, altrimenti viene cercato nella cartella DATA_APPELLO"
+echo " spiegazione: se il parametro opzionale DATA_APPELLO non è fornito, allora il file ListaStudentiEsameExport.xls viene cercato nella cartella corrente, altrimenti viene cercato nella cartella DATA_APPELLO"
 echo " anche i file prodotti vengono generati nella cartella DATA_APPELLO oppure in quella corrente se DATA_APPELLO non è specificata"
 echo
 echo "ATTENZIONE: ricordati di non modificare questi file dopo che hai cominciato ad utilizzarli per non creare inconsistenze tra le varie cose che generi partendo da essi. Se li modifichi, riparti da capo, dall'esecuzione del presente script."
@@ -21,7 +21,7 @@ if [ "$#" -gt 0 ]; then
     RELPATH="$1/"
 fi
 echo "Creating the file: ${RELPATH}lista_studenti_iscritti_tmpversion.csv"
-xls2csv ${RELPATH}ListaStudentiEsameExportExcel.xls | cut -d, -f3,4,5,6,13 | sort | grep "^\"VR" > ${RELPATH}lista_studenti_iscritti_tmpversion.csv
+xls2csv ${RELPATH}ListaStudentiEsameExport.xls | cut -d, -f3,4,5,6,13 | sort | grep "^\"VR" > ${RELPATH}lista_studenti_iscritti_tmpversion.csv
 echo "Done! A first temporary copy of the file ${RELPATH}lista_studenti_iscritti.csv has been created."
 echo
 echo "Creating the file: ${RELPATH}lista_studenti_iscritti_con_chiavi.csv"
