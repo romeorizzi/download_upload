@@ -93,9 +93,10 @@ with open(f"{CSV_FILE_WITH_STUDENTS}") as input_file:
         DEST_ANCHOR = row[2]
         DEST_PWD = row[3]
         DEST_ID = row[4]
-        DEST_MAIL_ADDRESS = DEST_ID+"@studenti.univr.it"
+        #DEST_MAIL_ADDRESS = DEST_ID+"@studenti.univr.it"
         DEST_NAME = row[5]
         DEST_SURNAME = row[6]
+        DEST_MAIL_ADDRESS = row[7]
         print(f"procedo ad inviare la mail allo studente {DEST_STUDENT_CODE} {DEST_ID} {DEST_NAME} {DEST_SURNAME}:")
         risp = os.system(f"./send_one_mail.py {argv[1]} {DEST_STUDENT_CODE} {DATE}")
         mail_inviate += 1

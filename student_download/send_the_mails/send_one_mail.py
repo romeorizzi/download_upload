@@ -15,7 +15,8 @@ CONFIG_MAIL_SERVER_FILE = "../../../credenziali_per_scripts_in_repo_pubblici/sen
 CSV_FILE_WITH_STUDENTS = "../lista_studenti_iscritti_con_chiavi.csv"
 
 MYADDRESS = "romeo.rizzi@univr.it"
-CCLIST = ["romeo.rizzi@univr.it","alice.raffaele@univr.it"]
+#CCLIST = ["romeo.rizzi@univr.it","alice.raffaele@univr.it"]
+CCLIST = ["romeo.rizzi@univr.it","aurora.rossi@studenti.univr.it"]
 CCLIST_FOR_ME_EXPERIMENTS = ["romeo.rizzi@univr.it", "romeorizzi05@gmail.com"]
 BCCLIST = []
 ATTACHMENTLIST=[]
@@ -65,10 +66,10 @@ with open(f"{CSV_FILE_WITH_STUDENTS}") as csv_file:
           DEST_ANCHOR = row[2]
           DEST_PWD = row[3]
           DEST_ID = row[4]
-          DEST_MAIL_ADDRESS = DEST_ID+"@studenti.univr.it"
+          #DEST_MAIL_ADDRESS = DEST_ID+"@studenti.univr.it"
           DEST_NAME = row[5]
           DEST_SURNAME = row[6]
-          
+          DEST_MAIL_ADDRESS = row[7]
           if argv[1] != "SUDO":
               print("If you had called this script with the SUDO option, then I would be performing the following action:")
           print("Sending a mail to the following people:")
