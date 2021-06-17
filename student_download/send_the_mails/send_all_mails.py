@@ -99,4 +99,4 @@ with open(f"{CSV_FILE_WITH_STUDENTS}") as input_file:
         print(f"procedo ad inviare la mail allo studente {DEST_STUDENT_CODE} {DEST_ID} {DEST_NAME} {DEST_SURNAME}:")
         risp = os.system(f"./send_one_mail.py {argv[1]} {DEST_STUDENT_CODE} {DATE}")
         mail_inviate += 1
-print(f"Mail inviate: {mail_inviate}/{len(list_IDs)}/")
+print(f"Mail inviate: {mail_inviate}/{len(list_IDs)}.")
