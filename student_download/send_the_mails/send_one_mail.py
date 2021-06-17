@@ -66,7 +66,6 @@ with open(f"{CSV_FILE_WITH_STUDENTS}") as csv_file:
           DEST_ANCHOR = row[2]
           DEST_PWD = row[3]
           DEST_ID = row[4]
-          #DEST_MAIL_ADDRESS = DEST_ID+"@studenti.univr.it"
           DEST_NAME = row[5]
           DEST_SURNAME = row[6]
           DEST_MAIL_ADDRESS = row[7]
@@ -126,7 +125,7 @@ SUBJECT="ESAME di Ricerca Operativa: ecco l'ancora privata e le tue credenziali 
 
 text = f"""
 Caro/a {DEST_NAME} {DEST_SURNAME},
-puoi scaricarti fin da subito il file compresso col tuo testo per l'esame di Ricerca Operativa:
+puoi ora scaricarti (consigliamo sul Desktop/Scrivania) il file compresso col tuo testo per l'esame di Ricerca Operativa da uno dei seguenti URL:
 
    Se preferisci un file .zip:
    http://profs.sci.univr.it/~rrizzi/classes/RO/shuttle/esame_RO-{DATE}_{DEST_ANCHOR}_{DEST_ID}/esame_RO-{DATE}_{DEST_ID}.zip
@@ -134,13 +133,13 @@ puoi scaricarti fin da subito il file compresso col tuo testo per l'esame di Ric
    Se preferisci un file .tgz:
    http://profs.sci.univr.it/~rrizzi/classes/RO/shuttle/esame_RO-{DATE}_{DEST_ANCHOR}_{DEST_ID}/esame_RO-{DATE}_{DEST_ID}.zip
 
-
-Per accedere dovrai immettere la tua matricola nella forma VR?????? come username e la seguente password:
+Se cliccando sullo URL da te scelto non succede nulla (dipende dalla configurazione del tuo mailer) allora copia ed incolla lo URL in un browser.
+In ogni caso, per accedere dovrai immettere la tua matricola nella forma VR?????? come username e la seguente password:
 
 Password: {DEST_PWD}
 
 
-In realtà, come sempre, il modo più efficace per procedere è utilizzare dal terminale un comando apposito:
+In realtà, come sempre, se disponi di un terminale (con shell bash o equivalenti) un modo alternativo, più diretto ed efficace, per ottenere i file è immettere da terminale il comando apposito:
 
 wget --user <VR??????> --password <vedi sopra> http://profs.sci.univr.it/~rrizzi/classes/RO/shuttle/esame_RO-{DATE}_{DEST_ANCHOR}_{DEST_ID}/esame_RO-{DATE}_{DEST_ID}.zip
 
@@ -166,7 +165,7 @@ Puoi inoltre chiedere aiuto e/o far avere segnalazioni scrivendoci una mail indi
 
 che a:
 
- alice.raffaele@univr.it
+ aurora.rossi@studenti.univr.it
 
 Ricordati di specificare bene il problema tecnico riscontrato e di identificarti (nome, cognome e matricola).
 """
@@ -174,7 +173,7 @@ Ricordati di specificare bene il problema tecnico riscontrato e di identificarti
 html = f"""
 <html><body>
 <p>Caro/a {DEST_NAME} {DEST_SURNAME},</p>
-<p>puoi scaricarti fin da subito il file compresso col tuo testo per l'esame di Ricerca Operativa:</p>
+<p>puoi ora scaricarti (consigliamo sul Desktop/Scrivania) il file compresso col tuo testo per l'esame di Ricerca Operativa da uno dei seguenti URL:</p>
 <p></p>
 <p>Se preferisci un file .zip:</p>
 <p><a href="http://profs.sci.univr.it/~rrizzi/classes/RO/shuttle/esame_RO-{DATE}_{DEST_ANCHOR}_{DEST_ID}/esame_RO-{DATE}_{DEST_ID}.zip">http://profs.sci.univr.it/~rrizzi/classes/RO/shuttle/esame_RO-{DATE}_{DEST_ANCHOR}_{DEST_ID}/esame_RO-{DATE}_{DEST_ID}.zip</a></p>
@@ -182,12 +181,12 @@ html = f"""
 <p>Se preferisci un file .tgz:</p>
 <p><a href="http://profs.sci.univr.it/~rrizzi/classes/RO/shuttle/esame_RO-{DATE}_{DEST_ANCHOR}_{DEST_ID}/esame_RO-{DATE}_{DEST_ID}.tgz">http://profs.sci.univr.it/~rrizzi/classes/RO/shuttle/esame_RO-{DATE}_{DEST_ANCHOR}_{DEST_ID}/esame_RO-{DATE}_{DEST_ID}.tgz</a></p>
 <p></p>
-<p>Per accedere dovrai immettere la tua matricola nella forma VR?????? come username e la seguente password:</p>
+<p>Se cliccando sullo URL da te scelto non succede nulla (dipende dalla configurazione del tuo mailer) allora copia ed incolla lo URL in un browser. In ogni caso, per accedere dovrai immettere la tua matricola nella forma VR?????? come username e la seguente password:</p>
 <p></p>
 <p>Password: {DEST_PWD}</p>
 <p></p>
 <p></p>
-<p>In realtà, come sempre, il modo più efficace per procedere è utilizzare dal terminale un comando apposito:</p>
+<p>In realtà, come sempre, se disponi di un terminale (con shell bash o equivalenti) un modo alternativo, più diretto ed efficace, per ottenere i file è immettere da terminale il comando apposito:</p>
 <p></p>
 <p>wget --user VR?????? --password quella_specificata_sopra http://profs.sci.univr.it/~rrizzi/classes/RO/shuttle/esame_RO-{DATE}_{DEST_ANCHOR}_{DEST_ID}/esame_RO-{DATE}_{DEST_ID}.zip</p>
 <p></p>
@@ -199,7 +198,7 @@ html = f"""
 <p>Buon Esame!</p>
 <p></p>
 <p></p>
-P.S. In caso incontrassi difficoltà non mancare di segnalarcele subito e di chiedere aiuto <a href="mailto:romeo.rizzi@univr.it?cc=alice.raffaele@univr.it&subject=Problemi%20tecnici%20con%20esame%20di%20Ricerca%20Operativa%20{DEST_STUDENT_CODE}%20{DEST_NAME}%20{DEST_SURNAME}&body=Sono%20{DEST_STUDENT_CODE}%0D%0A%0D%0A%20%20%20%20***%20spiegati%20per%20bene%20***%0D%0A%0D%0A">scrivendoci una mail utilizzando questo template</a>.
+P.S. In caso incontrassi difficoltà non mancare di segnalarcele subito e di chiedere aiuto <a href="mailto:romeo.rizzi@univr.it?cc=aurora.rossi@studenti.univr.it&subject=Problemi%20tecnici%20con%20esame%20di%20Ricerca%20Operativa%20{DEST_STUDENT_CODE}%20{DEST_NAME}%20{DEST_SURNAME}&body=Sono%20{DEST_STUDENT_CODE}%0D%0A%0D%0A%20%20%20%20***%20spiegati%20per%20bene%20***%0D%0A%0D%0A">scrivendoci una mail utilizzando questo template</a>.
 </body></html>
 """
 
