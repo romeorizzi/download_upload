@@ -98,5 +98,9 @@ with open(f"{CSV_FILE_WITH_STUDENTS}") as input_file:
         DEST_MAIL_ADDRESS = row[7]
         print(f"procedo ad inviare la mail allo studente {DEST_STUDENT_CODE} {DEST_ID} {DEST_NAME} {DEST_SURNAME}:")
         risp = os.system(f"./send_one_mail.py {argv[1]} {DEST_STUDENT_CODE} {DATE}")
-        mail_inviate += 1
+        #print(f"risp={risp}")
+        if risp==0:
+            mail_inviate += 1
+        elif risp>400:
+            break
 print(f"Mail inviate: {mail_inviate}/{len(list_IDs)}.")
