@@ -88,9 +88,9 @@ if not found:
 
 # NOW WE CHECK THAT THE FILES WITH THE FILENAMES AS IN THE ANNOUNCEMENT MAIL WE ARE GOING TO SEND INDEED EXIST (AT LEAST IN THE SHUTTLE FOLDER):
 
-rel_path_ZIP_file_for_student = f"esame_RO-{DATE}_{DEST_ANCHOR}_{DEST_ID}/esame_RO-{DATE}_{DEST_ID}.zip"
+rel_path_ZIP_file_for_student = f"esame-RO_{DATE}_{DEST_ANCHOR}_{DEST_ID}/esame-RO_{DATE}_{DEST_ID}.zip"
 
-rel_path_TGZ_file_for_student = f"esame_RO-{DATE}_{DEST_ANCHOR}_{DEST_ID}/esame_RO-{DATE}_{DEST_ID}.tgz"
+rel_path_TGZ_file_for_student = f"esame-RO_{DATE}_{DEST_ANCHOR}_{DEST_ID}/esame-RO_{DATE}_{DEST_ID}.tgz"
 
 def confirm_to_continue():
     answ=input("Do you want to continue with this student (yY), or skip this one student (kK), or abort the whole send_all_mails process that might have triggered this single send_one_mail process? ")

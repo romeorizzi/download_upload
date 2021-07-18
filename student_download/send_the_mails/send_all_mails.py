@@ -3,6 +3,7 @@ from sys import argv, exit, stderr
 import os
 from shutil import copyfile
 import csv
+import time
 
 CSV_FILE_WITH_STUDENTS = "../lista_studenti_iscritti_con_chiavi.csv"
 SHUTTLE_FOLDER = "../shuttle"
@@ -22,6 +23,7 @@ if len(argv) != 2 or argv[1] not in {"SUDO","ME","SAY"}:
     usage(stderr)
     exit(1)
 
+start_time = time.time()
 
 if not os.path.exists(CSV_FILE_WITH_STUDENTS):
     print(f"Questo script ({argv[0]}) opera a partire dal file {CSV_FILE_WITH_STUDENTS}. Tale file contiene i dati degli studenti necessari all'invio delle mail che forniscano loro i punti di accesso e le credenziali personali. Il file .csv contiene una riga per ogni studente, suddivisa nei campi necessari affinche questo ed altri script della nostra architettura possano svolgere la loro funzione. Lo scritp si attende che tale file od un link ad esso sia presente nella cartella padre di quella dove lo script viene lanciato (che assumiamo essere .../student_download/send_the_mails/).\n\nESECUZIONE INTERROTTA: File {CSV_FILE_WITH_STUDENTS} con i dati degli studenti necessari all'invio delle mail non trovato.", file=stderr)
@@ -103,4 +105,4 @@ with open(f"{CSV_FILE_WITH_STUDENTS}") as input_file:
             mail_inviate += 1
         elif risp>400:
             break
-print(f"Mail inviate: {mail_inviate}/{len(list_IDs)}.")
+print(f"Mail inviate: {mail_inviate}/{len(list_IDs)}. Tempo totale impiegato: {time.time() - start_time} secondi")
