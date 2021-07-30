@@ -1,0 +1,1 @@
+The file send_mail_config.json is just a fake example of the file with credentials that you should place ouside the folder of this repo in order to protect your credentials on your mails server while letting the scripts in this directory doing their job sending mails on your account.
