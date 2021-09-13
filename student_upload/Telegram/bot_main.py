@@ -3,7 +3,7 @@ from zipfile import ZipFile
 import requests
 import os
 
-API_TOKEN = "1951014189:AAGlCV5ChWZR7hTqC-Hnq6WKv-ioLrjYwrQ"
+API_TOKEN = ""
 bot = telebot.TeleBot(API_TOKEN)
 
 
