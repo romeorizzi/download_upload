@@ -1,5 +1,5 @@
 # @your17bot
-# TOKEN 275288481:AAFJM2NWksYKupliFEnJ5QbChv5LatRWP_E
+# TOKEN nnnnnnnnn:XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX_X
 
 #!/usr/bin/python3
 from sys import argv, exit, stderr
