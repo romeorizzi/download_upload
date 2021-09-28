@@ -1,0 +1,180 @@
+C'è molto rumore attorno ai bots Telegram e ho perso un pò di tempo a trovare il filone giusto dove effettivamente ti spiegano come automtizzare le cose su Telegram.
+La difficoltà non è tanto nel semplice codice python che poi si andrà a scrivere (se poi serve di scriverne perchè conviene il più possibile lavorare di integrazione di servizi ben separati da API) quanto nel settaggio delle cose.
+Lo schema di massima dei passi da compiere è questo:
+ 1. create a bot and get the token of the created bot.
+ 2. add the bot to the chat where to operate it (a same bot can be added to more chats)
+ 3. get the chat_id of the chat.
+
+Sotto trovi maggiori dettagli su ciascuno di questi punti.
+
+
+OPZIONI ATTUALMENTE PRESENTI PER MANDARE COMANDI AL TELEGRAM BOT:
+
+=== Opzione 1: da riga di comando (CLI bash), senza installare nulla, puoi già inviare messaggi o file oppure anche attachments con caption ======
+
+Anche senza avere installato nulla basta anche solo una riga di comando dalla bash. Esempi:
+
+   curl -X POST "https://api.telegram.org/botXXX:YYYY/sendMessage" -d "chat_id=-zzzzzzzzzz&text=Ciao, messaggio di prova."
+
+   curl -v -F "chat_id=569502265" -F document=@/Users/users/Desktop/file.txt https://api.telegram.org/bot<TOKEN>/sendDocument
+
+If the chat is a public one i.e. "@mychannel" it will not work unless we change the -F for --form-string for specifying the chat_id. Like this:
+   curl -v --form-string "chat_id=@mychannel" -F document=@/Users/$USER/Desktop/file.txt api.telegram.org/bot<TOKEN>/sendDocument 
+
+Se vuoi corredare l'attachment con un messaggio usa il Field caption:
+curl -F chat_id="-xxxxxxxxxx" -F document=@"/home/telegram/someFile.pdf" -F caption="Text Message with attachment" https://api.telegram.org/bot<token>/sendDocument
+
+
+=== Opzione 2: MIA SCELTA ATTUALE PER INVII DIRETTI: da riga di comando (CLI bash), installato telegram-send, puoi inviare varie cose ma anche definire i destinatari in file di configurazione, evitando di manifestare ogni volta lunghi dati anche sensibili e finendo col tenerli meglio organizzati ======
+
+Esempi di comandi:
+telegram-send "Hello, World!"
+telegram-send --config ro.conf "Hello, World!"   (ro.conf è un file di configurazione come sigato sotto)
+telegram-send --file document.pdf
+telegram-send --format markdown "Only the *bold* use _italics_"
+telegram-send --format html "<pre>fixed-width messages</pre> are <i>also</i> supported"
+telegram-send --image photo.jpg --caption "The Moon at night"
+
+Nota: telegram-send (https://github.com/rahiel/telegram-send) (o, meno chiaro: https://pypi.org/project/telegram-send/) è un progetto per inviare facile da riga di comando a un utente privato (tipicamente sè stessi con un cron) o canale o gruppo. Uno si crea un file di configurazione per ogni destinatario e poi con un semplice comando da CLI che lo richiama gli invia quello che vuole.
+
+Nota: non essendoci il pacchetto apt ho installato telegram-send sulla mia macchina con:
+   pip3 install --user telegram-send
+
+Se vuoi inviare a destinazioni diverse (anche gruppi o canali) allora ti crei dei file di configurazione da poi usare
+
+CONFIGURAZIONE DI UN NUOVO CANALE O GRUppO:
+telegram-send --config mychannel.conf --configure-channel
+telegram-send --config mygroup.conf --configure-group
+
+Invio: 
+telegram-send --config mygroup.conf "Hello, World!"
+
+Here is an example telegram-send.conf:
+[telegram]
+token = 123456:FsadfsdafWGsDFbvFDSKAEfldsafKGFAG
+chat_id = 123456789
+
+CONFIGURAZIONE INIZIALE:
+
+telegram-send --configure
+
+Please add only_writes_bot on Telegram (https://telegram.me/only_writes_bot)
+and send it the password: 28627
+
+Questo codice (28627) glielo mandi da Telegram, come se il bot fosse un tuo contatto, e ti risponde:
+🎊 Congratulations romeorizzi! 🎊
+telegram-send is now ready for use!
+
+Ottieni questa risposta anche sul terminale (telegram-send --configure)
+E puoi già usarlo:
+ telegram-send "Hello, World!"
+ telegram-send --format markdown "Only the *bold* use _italics_"
+con varie opzioni di formato (e anche HTML tags are fully supported)
+
+
+=== Opzione 3: bot scritto in python che solo scrive un messaggio di testo ======
+
+import requests
+
+def telegram_bot_sendtext(bot_message):
+   bot_token = ''
+   bot_chatID = ''
+   send_text = 'https://api.telegram.org/bot' + bot_token + '/sendMessage?chat_id=' + bot_chatID + '&parse_mode=Markdown&text=' + bot_message
+   response = requests.get(send_text)
+   return response.json()
+
+test = telegram_bot_sendtext("Ciao! Testing Telegram bot")
+print(test)
+
+Nota: Ho python3-python-telegram-bot installato sulla mia macchina.
+
+=== Opzione 4: bots che reggano chats/servizi dove il bot debba anche ricevere, non solo inviare a comando ======
+
+Questo tipo di bot andrà meglio deployato su un server sempre acceso, ma può essere sviluppato e testato sulla tua macchina prima del deployment.
+Quando/se incominci a fare questo tipo di bot viene forse a convenire l'uso di una libreria.
+In python questa sembra essere la proposta open source più importante:
+
+https://python-telegram-bot.org/
+https://github.com/python-telegram-bot/python-telegram-bot/wiki/Introduction-to-the-API
+
+Nota: Ho python3-python-telegram-bot installato sulla mia macchina.
+
+====================
+
+SOLUZIONI PER CHAT BOTS INTEGRATI IN WORKFLOWS E LORO DEPLOYMENT:
+
+Il seguente video per un servizio purtroppo a pagamento (e salato, il Chatbot Builder della ActiveChat AI https://app.activechat.ai/signup) è però estremamente chiaro e rivelatore su come convenga impostare l'architettura per un servizio complesso:
+
+https://www.youtube.com/watch?v=gQnv9-u8jVk
+
+Mentre questo video di CoderDojo mentors di spicco è non solo ottimo (peccato siano madrelingua inglesi) ma anche ricerca soluzione gratuita tramite replit:
+
+https://www.youtube.com/watch?v=NwBWW8cNCP4
+
+Questo video anche è buono e suggerisce un'opzione gratuita (pythonanywhere) per il deployment round the clock:
+https://www.youtube.com/watch?v=5nhdxpoicW4
+Se usi questa opzione per il deployment il bot non potrà modificare file di dati tuoi, e diventa quindi importante fargli modificare i dati in un google spreadsheet nel cloud. Come fare questo è illustrato in questo tutorial:
+https://www.youtube.com/watch?v=mKSXd_od4Lg
+https://www.youtube.com/watch?v=24EyItKfm50&list=PLGGHwNnXfci86dfqIVLc5l391SPk-RX1F
+Per altro questa integrazione con Google può pagare in molti altri modi. E' una serie di brevi tutorial dove viene presentato anche il linguaggio Google Upscript. Il secondo video mostra come impostare il webhook da Telegram a Google.
+
+__________________________________
+UN RIFERIMENTO MIGLIORE DI ALTRI PER PARTIRE:
+
+   https://medium.com/@ManHay_Hong/how-to-create-a-telegram-bot-and-send-messages-with-python-4cf314d9fa3e
+
+Le cose da fare sono:
+
+1. chiedere a \thebotfather di crearti un bot (da questa operazione otterrai nome del bot e TOKEN del bot)
+
+  1.1  On Telegram, search @ BotFather (io ho dovuto introdurre la stringa "@ BotFather" nel campo Search principale di Telegram)
+  1.2  Send him a “/start” message
+  1.3  Send him another “/newbot” message, then follow the instructions to setup a name and a username
+Your bot is now ready, be sure to save a backup of your API token, and correct, this API token is your bot_token
+
+name: only_writes
+username: only_writes_bot
+___
+Done! Congratulations on your new bot. You will find it at t.me/only_writes_bot. You can now add a description, about section and profile picture for your bot, see /help for a list of commands.
+Use this token to access the HTTP API:
+nnnnnnnnnn:XXXXX-XXXXXXXXXXXXXXXXXXXXXXXXXXX-X (oscurato)
+For a description of the Bot API, see this page: https://core.telegram.org/bots/api
+---
+
+_______________________________________________________________
+2. costruire/ottenere credenziali di accesso all'API Telegram a:
+https://my.telegram.org/auth
+
+dove ti spiega anche quale sia il corretto international format per i numeri telefonici:
+# Please make sure you are entering your mobile phone number in the international format.
+# I.e.: +(country code)(city or carrier code)(your number)
+e dove ottieni:
+   api_id
+   api_hash
+Web login code. Dear Romeo, we received a request from your account to log in on my.telegram.org. This is your login code:
+XXXXXXXXXXX  (obscured)
+
+Do not give this code to anyone, even if they say they're from Telegram! This code can be used to delete your Telegram account. We never ask to send it anywhere. 
+
+_______________________________________________________________
+
+3. get the chat_id of the chat:
+
+First, post a message in a chat where your bot is included (channel, group mentioning the bot, or one-to-one chat).
+Se ad esempio il bot si chiama 'only_writes', il messaggio migliore da inviare è (tramite l'App Telegram, pigiando l'aeroplanino):
+   /start @my_bot
+
+Then, just run:
+
+curl https://api.telegram.org/bot<TOKEN>/getUpdates
+
+ossia:
+
+curl https://api.telegram.org/botnnnnnnnnnn:XXXXX-XXXXXXXXXXXXXXXXXXXXXXXXXXX-X/getUpdates
+
+Ed a questo punto ti basta guardare l'ultimo messaggio del json che ottieni in risposta. Così non ti servirà nemmeno avvalerti di un buon json viewer (https://jsoneditoronline.org/) per visionare il json e ritrovare l'informaion che ti serve.
+
+_________________________________________________________________
+Testing: You can test sending a message to the group with a curl:
+
+curl -X POST "https://api.telegram.org/botXXX:YYYY/sendMessage" -d "chat_id=-zzzzzzzzzz&text=Ciao, messaggio di prova."
