@@ -14,7 +14,7 @@ import argparse
 
 import mail_templates
 
-CONFIG_FOLDER_WITH_SECRET_CREDENTIALS = "../../../credenziali_per_scripts_in_repo_pubblici/"
+CONFIG_FOLDER_WITH_SECRET_CREDENTIALS = "../../../../credenziali_per_scripts_in_repo_pubblici/"
 CONFIG_MAIL_SERVER_FILE = CONFIG_FOLDER_WITH_SECRET_CREDENTIALS + "send_mail_config.yaml"
 CONFIG_TELEGRAM_SEND_RO_GROUP_FILE = CONFIG_FOLDER_WITH_SECRET_CREDENTIALS + "ro.conf"
 CSV_FILE_WITH_STUDENTS = "../lista_studenti_iscritti_con_chiavi.csv"

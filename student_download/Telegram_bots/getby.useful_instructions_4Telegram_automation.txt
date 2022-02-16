@@ -1,4 +1,5 @@
-C'è molto rumore attorno ai bots Telegram e ho perso un pò di tempo a trovare il filone giusto dove effettivamente ti spiegano come automtizzare le cose su Telegram.
+C'è molto rumore attorno ai bots Telegram e ho perso un pò di tempo a trovare il filone giusto dove
+effettivamente ti spiegano come automatizzare le cose su Telegram.
 La difficoltà non è tanto nel semplice codice python che poi si andrà a scrivere (se poi serve di scriverne perchè conviene il più possibile lavorare di integrazione di servizi ben separati da API) quanto nel settaggio delle cose.
 Lo schema di massima dei passi da compiere è questo:
  1. create a bot and get the token of the created bot.

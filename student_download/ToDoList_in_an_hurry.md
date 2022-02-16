@@ -2,10 +2,10 @@ Cose da avere:
 
 1. il file lista_studenti_iscritti_con_chiavi.csv
    ottienilo con:
-   download_upload/student_download$ cp ../../esami-RO-private/students_lists/20yy-mm-dd/* .
+   download_upload/student_download$ cp ../../../esami-RO-private/students_lists/20yy-mm-dd/* .
 2. lo shuttle folder con i temi
    ottienilo con:
-   download_upload/student_download$ cp -r -d ../../esami-RO-private/shuttle .
+   download_upload/student_download$ cp -r -d ../../../esami-RO-private/shuttle .
 
 3. colloca dentro la cartella shuttle il file nascosto .htaccess   (NECESSARIO se vuoi che scarichino da WebServer)
    ottienilo con:
