@@ -15,7 +15,7 @@ usage=f"""\nSono lo script che invia tutte le mail agli studenti coi link e le c
 
 Usage: {os.path.basename(argv[0])}  {{ SUDO | ME | SAY }}
 
-   where the three alternative options for the 'mode' compulsory parameter are:
+   where the three alternative options for the 'mode' compulsory argument are:
    * SUDO: really act! Send all the mails to the person.
    * ME: send all the mails but just to myself. In this way, I can have a look at a few mails before sending a ton of them.
    * SAY: only tell the action in the gun but do not really take it.
@@ -40,13 +40,13 @@ CBOLD     = '\33[1m'
 CITALIC   = '\33[3m'
 CURL      = '\33[4m'
 CBLINK    = '\33[5m'
-CRED    = '\33[31m'
-CGREEN  = '\33[32m'
-CYELLOW = '\33[33m'
-CBLUE   = '\33[34m'
-CVIOLET = '\33[35m'
-CBEIGE  = '\33[36m'
-CWHITE  = '\33[37m'
+CRED      = '\33[31m'
+CGREEN    = '\33[32m'
+CYELLOW   = '\33[33m'
+CBLUE     = '\33[34m'
+CVIOLET   = '\33[35m'
+CBEIGE    = '\33[36m'
+CWHITE    = '\33[37m'
 
 
 def main():
@@ -88,7 +88,7 @@ def main():
         exit(1)
 
     if not os.path.exists(SHUTTLE_FOLDER):    
-        print(f"ERROR: the SHUTTLE_FOLDER directory {SHUTTLE_FOLDER} does not exist. Create it and fill it up properly, then you can start me again.")
+        print(f"{CRED}ERROR:{CEND} the SHUTTLE_FOLDER directory {SHUTTLE_FOLDER} does not exist. Create it and fill it up properly, then you can start me again.")
         exit(1)
         
         
