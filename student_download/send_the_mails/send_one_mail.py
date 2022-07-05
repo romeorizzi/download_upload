@@ -14,11 +14,11 @@ import argparse
 
 import mail_templates
 
-CONFIG_FOLDER_WITH_SECRET_CREDENTIALS = "../../../../credenziali_per_scripts_in_repo_pubblici/"
-CONFIG_MAIL_SERVER_FILE = CONFIG_FOLDER_WITH_SECRET_CREDENTIALS + "send_mail_config.yaml"
-CONFIG_TELEGRAM_SEND_RO_GROUP_FILE = CONFIG_FOLDER_WITH_SECRET_CREDENTIALS + "ro.conf"
-CSV_FILE_WITH_STUDENTS = "../lista_studenti_iscritti_con_chiavi.csv"
-SHUTTLE_FOLDER = "../shuttle"
+CONFIG_FOLDER_WITH_SECRET_CREDENTIALS = os.path.join("..","..","..","..","credenziali_per_scripts_in_repo_pubblici")
+CONFIG_MAIL_SERVER_FILE = os.path.join(CONFIG_FOLDER_WITH_SECRET_CREDENTIALS,"send_mail_config.yaml")
+CONFIG_TELEGRAM_SEND_RO_GROUP_FILE = os.path.join(CONFIG_FOLDER_WITH_SECRET_CREDENTIALS,"ro.conf")
+CSV_FILE_WITH_STUDENTS = os.path.join("..","lista_studenti_iscritti_con_chiavi.csv")
+SHUTTLE_FOLDER = os.path.join("..","shuttle")
 SHUTTLE_FOLDER_ON_WEB_SERVER = "http://profs.sci.univr.it/~rrizzi/classes/RO/shuttle"
 
 STANZA_ZOOM="https://univr.zoom.us/j/3518684000"
@@ -130,13 +130,13 @@ def send_one_mail(MODE, DATE, ID_STUDENT, DEST_MAIL_ADDRESS, DEST_ANCHOR, DEST_P
     
     # ELABORATIONS ON THE STUDENT'S DATA:
 
-    rel_path_ZIP_file_for_student = f"esame-RO_{DATE}_{DEST_ANCHOR}__{ID_STUDENT}/esame-RO_{DATE}_{ID_STUDENT}.zip"
+    rel_path_ZIP_file_for_student = os.path.join(f"esame-RO_{DATE}_{DEST_ANCHOR}__{ID_STUDENT}","esame-RO_{DATE}_{ID_STUDENT}.zip")
 
-    rel_path_TGZ_file_for_student = f"esame-RO_{DATE}_{DEST_ANCHOR}__{ID_STUDENT}/esame-RO_{DATE}_{ID_STUDENT}.tgz"
+    rel_path_TGZ_file_for_student = os.path.join(f"esame-RO_{DATE}_{DEST_ANCHOR}__{ID_STUDENT}","esame-RO_{DATE}_{ID_STUDENT}.tgz")
 
-    rel_path_ENCRYPTED_ZIP_file_for_student = f"esame-RO_{DATE}__{ID_STUDENT}/esame-RO_{DATE}_{ID_STUDENT}.zip"
+    rel_path_ENCRYPTED_ZIP_file_for_student = os.path.join(f"esame-RO_{DATE}__{ID_STUDENT}","esame-RO_{DATE}_{ID_STUDENT}.zip")
 
-    rel_path_ENCRYPTED_TGZ_file_for_student = f"esame-RO_{DATE}__{ID_STUDENT}/esame-RO_{DATE}_{ID_STUDENT}.tgz"
+    rel_path_ENCRYPTED_TGZ_file_for_student = os.path.join(f"esame-RO_{DATE}__{ID_STUDENT}","esame-RO_{DATE}_{ID_STUDENT}.tgz")
 
     # NOW WE CHECK THAT THE FILES WITH THE FILENAMES AS IN THE ANNOUNCEMENT MAIL WE ARE GOING TO SEND INDEED EXIST (AT LEAST IN THE SHUTTLE FOLDER):
 
@@ -153,7 +153,7 @@ def send_one_mail(MODE, DATE, ID_STUDENT, DEST_MAIL_ADDRESS, DEST_ANCHOR, DEST_P
             return "stop"
 
     if not without_zip:
-        if not os.path.exists(SHUTTLE_FOLDER+'/'+rel_path_ZIP_file_for_student):
+        if not os.path.exists(os.path.join(SHUTTLE_FOLDER,rel_path_ZIP_file_for_student)):
             print(f"\n{CRED}{CBOLD}WARNING:{CEND} could not find the file:\n   {rel_path_ZIP_file_for_student}\nin the shuttle folder:\n   {SHUTTLE_FOLDER}\n")
             answ=confirm_to_continue()
             if answ!="continue":
@@ -164,7 +164,7 @@ def send_one_mail(MODE, DATE, ID_STUDENT, DEST_MAIL_ADDRESS, DEST_ANCHOR, DEST_P
             with_web_server_download = with_tgz or not without_zip
 
     if with_tgz:
-        if not os.path.exists(SHUTTLE_FOLDER+'/'+rel_path_TGZ_file_for_student):
+        if not os.path.exists(os.path.join(SHUTTLE_FOLDER,rel_path_TGZ_file_for_student)):
             print(f"\n{CRED}{CBOLD}WARNING:{CEND} could not find the file:\n   {rel_path_TGZ_file_for_student}\nin the shuttle folder:\n   {SHUTTLE_FOLDER}\n")
             answ=confirm_to_continue()
             if answ!="continue":
@@ -176,7 +176,7 @@ def send_one_mail(MODE, DATE, ID_STUDENT, DEST_MAIL_ADDRESS, DEST_ANCHOR, DEST_P
 
     ATTACHMENTLIST=[]
     if with_zip_attached:
-        if not os.path.exists(SHUTTLE_FOLDER+'/'+rel_path_ZIP_file_for_student):
+        if not os.path.exists(os.path.join(SHUTTLE_FOLDER,rel_path_ZIP_file_for_student)):
             print(f"\n{CRED}{CBOLD}WARNING:{CEND} could not find the file:\n   {rel_path_ZIP_file_for_student}\nin the shuttle folder:\n   {SHUTTLE_FOLDER}\n")
             answ=confirm_to_continue()
             if answ!="continue":
@@ -186,10 +186,10 @@ def send_one_mail(MODE, DATE, ID_STUDENT, DEST_MAIL_ADDRESS, DEST_ANCHOR, DEST_P
             with_zip_attached=False
             with_attachment_download = with_tgz_attached or with_zip_attached
         else:
-            ATTACHMENTLIST.append(SHUTTLE_FOLDER + '/' + rel_path_ZIP_file_for_student)
+            ATTACHMENTLIST.append(os.path.join(SHUTTLE_FOLDER,rel_path_ZIP_file_for_student))
 
     if with_tgz_attached:
-        if not os.path.exists(SHUTTLE_FOLDER+'/'+rel_path_TGZ_file_for_student):
+        if not os.path.exists(os.path.join(SHUTTLE_FOLDER,rel_path_TGZ_file_for_student)):
             print(f"\n{CRED}{CBOLD}WARNING:{CEND} could not find the file:\n   {rel_path_TGZ_file_for_student}\nin the shuttle folder:\n   {SHUTTLE_FOLDER}\n")
             answ=confirm_to_continue()
             if answ!="continue":
@@ -199,10 +199,10 @@ def send_one_mail(MODE, DATE, ID_STUDENT, DEST_MAIL_ADDRESS, DEST_ANCHOR, DEST_P
             with_tgz_attached=False
             with_attachment_download = with_tgz_attached or with_zip_attached
         else:
-            ATTACHMENTLIST.append(SHUTTLE_FOLDER + '/' + rel_path_TGZ_file_for_student)
+            ATTACHMENTLIST.append(os.path.join(SHUTTLE_FOLDER,rel_path_TGZ_file_for_student))
             
     if not without_encrypted_zip:
-        if not os.path.exists(SHUTTLE_FOLDER+'/'+rel_path_ENCRYPTED_ZIP_file_for_student):
+        if not os.path.exists(os.path.join(SHUTTLE_FOLDER,rel_path_ENCRYPTED_ZIP_file_for_student)):
             print(f"\n{CRED}{CBOLD}WARNING:{CEND} could not find the file:\n   {rel_path_ENCRYPTED_ZIP_file_for_student}\nin the shuttle folder:\n   {SHUTTLE_FOLDER}\n")
             answ=confirm_to_continue()
             if answ!="continue":
@@ -213,7 +213,7 @@ def send_one_mail(MODE, DATE, ID_STUDENT, DEST_MAIL_ADDRESS, DEST_ANCHOR, DEST_P
             with_encrypted_download = with_encrypted_tgz or not without_encrypted_zip
 
     if with_encrypted_tgz:
-        if not os.path.exists(SHUTTLE_FOLDER+'/'+rel_path_ENCRYPTED_TGZ_file_for_student):
+        if not os.path.exists(os.path.join(SHUTTLE_FOLDER,rel_path_ENCRYPTED_TGZ_file_for_student)):
             print(f"\n{CRED}{CBOLD}WARNING:{CEND} could not find the file:\n   {rel_path_ENCRYPTED_TGZ_file_for_student}\nin the shuttle folder:\n   {SHUTTLE_FOLDER}\n")
             answ=confirm_to_continue()
             if answ!="continue":
@@ -253,7 +253,7 @@ def send_one_mail(MODE, DATE, ID_STUDENT, DEST_MAIL_ADDRESS, DEST_ANCHOR, DEST_P
 
     if not without_encrypted_zip:
         if MODE == "SUDO":
-            os.system(f'telegram-send --config {CONFIG_TELEGRAM_SEND_RO_GROUP_FILE} --file {SHUTTLE_FOLDER}/{rel_path_ENCRYPTED_ZIP_file_for_student}   --caption "Exam for student {DEST_NAME} {DEST_SURNAME}"')
+            os.system(f'telegram-send --config {CONFIG_TELEGRAM_SEND_RO_GROUP_FILE} --file {os.path.join(SHUTTLE_FOLDER,rel_path_ENCRYPTED_ZIP_file_for_student)}   --caption "Exam for student {DEST_NAME} {DEST_SURNAME}"')
             print("Sent on Telegram a .zip archive accessible to {ID_STUDENT}.")
         else:
             print("If you had called this script with the SUDO option, then we would also be adding the encrypted zip file over the Telegram Group.")
@@ -320,7 +320,7 @@ def main():
     lista_cartelle = os.listdir(SHUTTLE_FOLDER)
     DATE = None
     for name in lista_cartelle:
-       if os.path.isdir(SHUTTLE_FOLDER+'/'+name):
+       if os.path.isdir(os.path.join(SHUTTLE_FOLDER,name)):
           if len(name)>20 and name[8]=='_' and name[13]=='-' and name[16]=='-' and name[19]=='_' and name[-8:] == args.ID_student:
              DATE = name[9:19]
              print(f"A folder for student {CBOLD}{args.ID_student}{CEND} has been found with exam date {CBOLD}{CYELLOW}{DATE}{CEND}. Possiamo proseguire ...")
